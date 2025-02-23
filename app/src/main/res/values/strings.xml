@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">DiplomApplication</string>
+    <string name="main">Главная</string>
+    <string name="profile">Профиль</string>
+    <string name="greeting">Привет, Пользователь</string>
+</resources>
