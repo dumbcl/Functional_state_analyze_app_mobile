@@ -3,4 +3,11 @@
     <string name="main">Главная</string>
     <string name="profile">Профиль</string>
     <string name="greeting">Привет, Пользователь</string>
+    <string name="testing">Тестирование ЭСКАЛ</string>
+    <string name="open_testing">Открыть тестирование ЭСКАЛ</string>
+    <string name="testing_start">Сейчас вы пройдете тест ЭСКАЛ, пожалуйста, не закрывайте экран до окончания теста</string>
+    <string name="testing_start_ready">Я готов</string>
+    <string name="testing_finish">Вы уверены, что хотите выйти? Если вы не завершили тестирование, то оно не сохранится</string>
+    <string name="testing_finish_yes">Да, хочу выйти</string>
+    <string name="testing_finish_no">Нет, хочу продолжить</string>
 </resources>

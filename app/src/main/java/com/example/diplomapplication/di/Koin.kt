@@ -2,6 +2,7 @@ package com.example.diplomapplication.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.diplomapplication.ui.escal_screen.EscalScreenViewModel
 import com.example.diplomapplication.ui.main_screen.MainScreenViewModel
 import com.example.diplomapplication.ui.ppg_screen.PPGScreenViewModel
 import com.example.diplomapplication.ui.profile_screen.ProfileScreenViewModel
@@ -32,6 +33,7 @@ val viewModelsModule = module {
     viewModel { MainScreenViewModel() }
     viewModel { PPGScreenViewModel() }
     viewModel { ProfileScreenViewModel() }
+    viewModel { EscalScreenViewModel() }
 }
 
 val repositoryModule = module {

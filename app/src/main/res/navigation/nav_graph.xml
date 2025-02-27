@@ -16,6 +16,10 @@
             android:id="@+id/action_mainFragment_to_ppgFragment"
             app:destination="@id/ppgFragment"
             />
+        <action
+            android:id="@+id/action_mainFragment_to_escalFragment"
+            app:destination="@id/escalFragment"
+            />
     </fragment>
 
     <fragment
@@ -32,6 +36,19 @@
             android:id="@+id/action_profileFragment_to_mainFragment"
             app:destination="@id/mainFragment"
             />
+    </fragment>
+
+    <fragment
+        android:id="@+id/escalFragment"
+        android:name="com.example.diplomapplication.ui.escal_screen.EscalFragment"
+        android:label="EscalFragment">
+        <action
+            android:id="@+id/action_escalFragment_to_mainFragment"
+            app:destination="@id/mainFragment">
+            <argument
+                android:name="code"
+                app:argType="string" />
+        </action>
     </fragment>
 
 

@@ -1,19 +1,20 @@
-package com.example.diplomapplication.ui.main_screen
+package com.example.diplomapplication.ui.escal_screen
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.diplomapplication.ui.theme.DiplomApplicationTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.getValue
 
-class MainFragment : Fragment() {
+class EscalFragment : Fragment()  {
 
-    private val viewModel: MainScreenViewModel by viewModel()
+    private val viewModel: EscalScreenViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,18 +24,18 @@ class MainFragment : Fragment() {
         val navController = findNavController()
         viewModel.navController = navController
 
-        val code = arguments?.getString("code")
-
         return ComposeView(requireContext()).apply {
             setContent {
                 DiplomApplicationTheme {
-                    MainScreen(
-                        openProfile = { viewModel.navigateToProfile() },
-                        openEscal = { viewModel.navigateToEscalTesting() }
+                    EscalScreen(
+                        uiState = viewModel.uiState.collectAsState().value,
+                        closeStartAlert = { viewModel.closeStartAlert() },
+                        onBackClicked = { viewModel.setForFinish(it) },
+                        closeFinishAlert = { viewModel.closeFinishAlert() },
+                        finishTesting = { viewModel.finishTesting() },
                     )
                 }
             }
         }
     }
-
 }

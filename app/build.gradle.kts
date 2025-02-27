@@ -81,4 +81,6 @@ dependencies {
     implementation(libs.androidx.navigation.dynamic.features.fragment)
 
     androidTestImplementation(libs.androidx.navigation.testing)
+
+    implementation ("com.google.accompanist:accompanist-webview:0.33.1-alpha")
 }

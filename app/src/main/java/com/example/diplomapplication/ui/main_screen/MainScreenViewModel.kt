@@ -14,4 +14,8 @@ class MainScreenViewModel(): ViewModel()  {
     fun navigateToPPG() {
         navController.navigate(MainFragmentDirections.actionMainFragmentToPpgFragment())
     }
+
+    fun navigateToEscalTesting() {
+        navController.navigate(MainFragmentDirections.actionMainFragmentToEscalFragment())
+    }
 }
