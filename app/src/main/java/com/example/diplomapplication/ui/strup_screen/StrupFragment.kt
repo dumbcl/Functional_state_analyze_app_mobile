@@ -1,20 +1,23 @@
-package com.example.diplomapplication.ui.main_screen
+package com.example.diplomapplication.ui.strup_screen
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.ComposeView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import com.example.diplomapplication.ui.theme.DiplomApplicationTheme
+import com.example.diplomapplication.util.TEST_FINISHED
+import com.example.diplomapplication.data.TestType
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.getValue
 
-class MainFragment : Fragment() {
+class StrupFragment: Fragment() {
 
-    private val viewModel: MainScreenViewModel by viewModel()
+    private val viewModel: StrupScreenViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,20 +26,21 @@ class MainFragment : Fragment() {
 
         val navController = findNavController()
         viewModel.navController = navController
-        viewModel.init()
 
         return ComposeView(requireContext()).apply {
             setContent {
                 DiplomApplicationTheme {
-                    MainScreen(
-                        uiState = viewModel.uiState.collectAsState().value,
-                        openProfile = { viewModel.navigateToProfile() },
-                        openEscal = { viewModel.navigateToEscalTesting() },
-                        refresh = { viewModel.refresh() },
+                    StrupScreen(
+                        closeScreen = { viewModel.close() },
+                        finishTest = { viewModel.finishTest() },
                     )
                 }
             }
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        setFragmentResult(TestType.STRUP.label, bundleOf(TEST_FINISHED to viewModel.isFinished.value))
+    }
 }

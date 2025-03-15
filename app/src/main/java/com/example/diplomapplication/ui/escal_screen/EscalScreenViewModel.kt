@@ -1,17 +1,16 @@
 package com.example.diplomapplication.ui.escal_screen
 
-import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import com.example.diplomapplication.R
-import com.example.diplomapplication.ui.main_screen.MainFragment
 
 class EscalScreenViewModel(): ViewModel() {
 
     lateinit var navController : NavController
+
+    val isFinished = MutableStateFlow(false)
 
     private val _uiState = MutableStateFlow(
         EscalScreenState(
@@ -54,8 +53,21 @@ class EscalScreenViewModel(): ViewModel() {
                 isFinishAlertVisible = false,
             )
         }
-        navController.navigate(EscalFragmentDirections.actionEscalFragmentToMainFragment(uiState.value.resultCode.orEmpty()))
-//        navController.popBackStack()
-//        navController.popBackStack()
+        val code = uiState.value.resultCode
+        if (code != null) {
+            sendCode(code)
+            finishTest()
+        }
+    }
+
+    private fun sendCode(code: String) {}
+
+    private fun finishTest() {
+        isFinished.update { true }
+        close()
+    }
+
+    private fun close() {
+        navController.popBackStack()
     }
 }

@@ -20,6 +20,34 @@
             android:id="@+id/action_mainFragment_to_escalFragment"
             app:destination="@id/escalFragment"
             />
+        <action
+            android:id="@+id/action_mainFragment_to_escalDailyFragment"
+            app:destination="@id/escalDailyFragment"
+            />
+        <action
+            android:id="@+id/action_mainFragment_to_genchFragment"
+            app:destination="@id/genchFragment"
+            />
+        <action
+            android:id="@+id/action_mainFragment_to_reactionsFragment"
+            app:destination="@id/reactionsFragment"
+            />
+        <action
+            android:id="@+id/action_mainFragment_to_rufieFragment"
+            app:destination="@id/rufieFragment"
+            />
+        <action
+            android:id="@+id/action_mainFragment_to_shtangeFragment"
+            app:destination="@id/shtangeFragment"
+            />
+        <action
+            android:id="@+id/action_mainFragment_to_strupFragment"
+            app:destination="@id/strupFragment"
+            />
+        <action
+            android:id="@+id/action_mainFragment_to_textAuditionFragment"
+            app:destination="@id/textAuditionFragment"
+            />
     </fragment>
 
     <fragment
@@ -51,5 +79,46 @@
         </action>
     </fragment>
 
+    <fragment
+        android:id="@+id/escalDailyFragment"
+        android:name="com.example.diplomapplication.ui.escal_daily_screen.EscalDailyFragment"
+        android:label="EscalDailyFragment">
+    </fragment>
+
+    <fragment
+        android:id="@+id/genchFragment"
+        android:name="com.example.diplomapplication.ui.gench_screen.GenchFragment"
+        android:label="GenchFragment">
+    </fragment>
+
+    <fragment
+        android:id="@+id/reactionsFragment"
+        android:name="com.example.diplomapplication.ui.reactions_screen.ReactionsFragment"
+        android:label="ReactionsFragment">
+    </fragment>
+
+    <fragment
+        android:id="@+id/rufieFragment"
+        android:name="com.example.diplomapplication.ui.rufie_screen.RufieFragment"
+        android:label="RufieFragment">
+    </fragment>
+
+    <fragment
+        android:id="@+id/shtangeFragment"
+        android:name="com.example.diplomapplication.ui.shtange_screen.ShtangeFragment"
+        android:label="ShtangeFragment">
+    </fragment>
+
+    <fragment
+        android:id="@+id/strupFragment"
+        android:name="com.example.diplomapplication.ui.strup_screen.StrupFragment"
+        android:label="StrupFragment">
+    </fragment>
+
+    <fragment
+        android:id="@+id/textAuditionFragment"
+        android:name="com.example.diplomapplication.ui.text_audition_screen.TextAuditionFragment"
+        android:label="TextAuditionFragment">
+    </fragment>
 
 </navigation>

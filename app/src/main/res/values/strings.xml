@@ -10,4 +10,29 @@
     <string name="testing_finish">Вы уверены, что хотите выйти? Если вы не завершили тестирование, то оно не сохранится</string>
     <string name="testing_finish_yes">Да, хочу выйти</string>
     <string name="testing_finish_no">Нет, хочу продолжить</string>
+
+    <string name="test_escal_title">Первичное прохождение теста ЭСКАЛ</string>
+    <string name="test_escal_subtitle">Общая оценка состояния</string>
+    <string name="test_escal_daily_subtitle">Повторное прохождение теста ЭСКАЛ</string>
+    <string name="test_escal_daily_title">Изменения в общей оценке состояния</string>
+    <string name="test_text_audition_subtitle">Задания на прочтение и повторение текста</string>
+    <string name="test_text_audition_title">Оценка памяти и способности к воспроизведению информации на основе голоса</string>
+    <string name="test_strup_subtitle">Тест Струпа</string>
+    <string name="test_strup_title">Исследование когнитивной гибкости</string>
+    <string name="test_shtange_subtitle">Проба Штанге</string>
+    <string name="test_shtange_title">Оценка функциональных возможностей дыхательной системы</string>
+    <string name="test_gench_subtitle">Проба Генча</string>
+    <string name="test_gench_title">Оценка выносливости сердечно-сосудистой системы</string>
+    <string name="test_rufie_subtitle">Проба Руфье</string>
+    <string name="test_rufie_title">Оценка адаптационных возможностей сердечно-сосудистой системы</string>
+    <string name="test_reactions_subtitle">Задания на сенсомоторную реакцию</string>
+    <string name="test_reactions_title">Оценка быстроты и точности реакции</string>
+
+    <string name="refresh">Перезагрузить</string>
+    <string name="test_to_pass_today">Тесты, которые следует пройти сегодня:</string>
+    <string name="test_passed">Уже пройденные тесты:</string>
+    <string name="pass_again">Пройти снова</string>
+    <string name="start_pass">Начать тест</string>
+    <string name="last_attempt_day">Дата последнего прохождения: %s</string>
+    <string name="need_to_pass_test">Требуется пройти</string>
 </resources>

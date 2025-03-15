@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
 import com.example.diplomapplication.R
+import com.example.diplomapplication.ui.common_elements.FinishAlert
 import com.example.diplomapplication.util.ESCAL_TEST_1ST_WALKTHROUGH_LINK
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -108,31 +109,6 @@ private fun StartAlert(
                 onClick = closeAlert,
             ) {
                 Text(stringResource(R.string.testing_start_ready))
-            }
-        },
-    )
-}
-
-@Composable
-private fun FinishAlert(
-    finishTest: () -> Unit,
-    closeAlert: () -> Unit,
-) {
-    AlertDialog(
-        onDismissRequest = closeAlert,
-        title =  { Text(text = stringResource(R.string.testing_finish)) },
-        confirmButton = {
-            Button(
-                onClick = finishTest,
-            ) {
-                Text(stringResource(R.string.testing_finish_yes))
-            }
-        },
-        dismissButton = {
-            Button(
-                onClick = closeAlert,
-            ) {
-                Text(stringResource(R.string.testing_finish_no))
             }
         },
     )

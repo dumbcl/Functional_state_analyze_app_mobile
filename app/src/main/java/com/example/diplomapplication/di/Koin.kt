@@ -2,6 +2,9 @@ package com.example.diplomapplication.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.diplomapplication.data.TestsRepository
+import com.example.diplomapplication.data.TestsRepositoryImpl
+import com.example.diplomapplication.data.network.ApiRepository
 import com.example.diplomapplication.ui.escal_screen.EscalScreenViewModel
 import com.example.diplomapplication.ui.main_screen.MainScreenViewModel
 import com.example.diplomapplication.ui.ppg_screen.PPGScreenViewModel
@@ -30,7 +33,7 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}) =
     }
 
 val viewModelsModule = module {
-    viewModel { MainScreenViewModel() }
+    viewModel { MainScreenViewModel(get()) }
     viewModel { PPGScreenViewModel() }
     viewModel { ProfileScreenViewModel() }
     viewModel { EscalScreenViewModel() }
@@ -41,6 +44,10 @@ val repositoryModule = module {
     single { provideSharedPreferences(androidContext()) }
     single { provideOkHttpClient() }
     single { provideRetrofit(get()) }
+    single { provideApiService(get()) }
+    single<TestsRepository> {
+        TestsRepositoryImpl(apiRepository = get())
+    }
 }
 
 
@@ -62,4 +69,8 @@ private fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+}
+
+private fun provideApiService(retrofit: Retrofit): ApiRepository {
+    return retrofit.create(ApiRepository::class.java)
 }
