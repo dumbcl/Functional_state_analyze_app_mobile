@@ -7,6 +7,7 @@ data class MainScreenState(
     val testsToTake: List<TestItem>,
     val testsPassed: List<TestItem>,
     val status: LoadingStatus,
+    val showDownloadHealthDialog: Boolean,
 ) {
     enum class LoadingStatus { LOADING, ERROR, SUCCESS }
 }

@@ -11,3 +11,5 @@ const val ESCAL_TEST_1ST_WALKTHROUGH_LINK = "https://www.eskal.ru/link_t.php?lin
 const val ESCAL_TEST_EVERY_DAY_WALKTHROUGH_LINK = "https://www.eskal.ru/link_t.php?link=p8cbAac4"
 
 const val TEST_FINISHED = "test_finished"
+
+const val PREVIOUS_TIME = "previous_time"

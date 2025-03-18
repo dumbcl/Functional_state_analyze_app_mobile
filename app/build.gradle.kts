@@ -64,7 +64,6 @@ dependencies {
 
     implementation (libs.kotlinx.coroutines.android)
     implementation (libs.kotlinx.coroutines.javafx)
-    implementation (libs.kotlinx.coroutines.swing)
     implementation (libs.kotlinx.coroutines.test)
 
     implementation (libs.retrofit)
@@ -83,4 +82,5 @@ dependencies {
     androidTestImplementation(libs.androidx.navigation.testing)
 
     implementation ("com.google.accompanist:accompanist-webview:0.33.1-alpha")
+    implementation (libs.androidx.connect.client)
 }

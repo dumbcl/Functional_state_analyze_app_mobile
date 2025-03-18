@@ -1,5 +1,11 @@
 package com.example.diplomapplication.ui.main_screen
 
+import androidx.health.connect.client.HealthConnectClient
+import androidx.health.connect.client.records.HeartRateRecord
+import androidx.health.connect.client.records.StepsRecord
+import androidx.health.connect.client.request.AggregateRequest
+import androidx.health.connect.client.request.ReadRecordsRequest
+import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
@@ -16,6 +22,9 @@ import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
 import com.example.diplomapplication.R
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 class MainScreenViewModel(
     private val testsRepository: TestsRepository
@@ -23,16 +32,21 @@ class MainScreenViewModel(
 
     lateinit var navController : NavController
 
+    var healthConnectClient : HealthConnectClient? = null
+
     private val _uiState = MutableStateFlow(
         MainScreenState(
             currentDate = getCurrentDate(),
             testsToTake = emptyList(),
             testsPassed = emptyList(),
             status = MainScreenState.LoadingStatus.LOADING,
+            showDownloadHealthDialog = false,
         )
     )
 
     val uiState = _uiState.asStateFlow()
+
+    val isPermissionsForHealthGranted = MutableStateFlow(false)
 
     fun init() = viewModelScope.launch {
         val tests = async {
@@ -120,6 +134,58 @@ class MainScreenViewModel(
 
     fun navigateToTextAudition() {
         navController.navigate(MainFragmentDirections.actionMainFragmentToTextAuditionFragment())
+    }
+
+    fun showHealthDialog() {
+        _uiState.update {
+            uiState.value.copy(
+                showDownloadHealthDialog = true,
+            )
+        }
+    }
+
+    fun closeHealthDialog() {
+        _uiState.update {
+            uiState.value.copy(
+                showDownloadHealthDialog = false,
+            )
+        }
+    }
+
+    fun updateHeartRateOnServer() = viewModelScope.launch {
+        try {
+            val currentTime = LocalDateTime.now()
+            val currentTimeInstant = currentTime.atZone(ZoneId.of("Europe/Moscow")).toInstant()
+            val previousTimeInstant = currentTime.minusWeeks(2).atZone(ZoneId.of("Europe/Moscow")).toInstant()
+            val timeRange = TimeRangeFilter.between(previousTimeInstant, currentTimeInstant)
+            val heartRateResponse = async {
+                healthConnectClient?.readRecords(
+                    ReadRecordsRequest(
+                        HeartRateRecord::class,
+                        timeRangeFilter = timeRange,
+                    )
+                )
+            }.await()
+        } catch (e: Exception) { }
+    }
+
+    suspend fun aggregateSteps(
+        healthConnectClient: HealthConnectClient,
+        startTime: Instant,
+        endTime: Instant
+    ) {
+        try {
+            val response = healthConnectClient.aggregate(
+                AggregateRequest(
+                    metrics = setOf(StepsRecord.COUNT_TOTAL),
+                    timeRangeFilter = TimeRangeFilter.between(startTime, endTime)
+                )
+            )
+            // The result may be null if no data is available in the time range
+            val stepCount = response[StepsRecord.COUNT_TOTAL]
+        } catch (e: Exception) {
+            // Run error handling here
+        }
     }
 
     private fun getCurrentDate(): String {

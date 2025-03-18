@@ -1,5 +1,7 @@
 package com.example.diplomapplication.ui.main_screen
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +12,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -19,11 +22,14 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.solver.widgets.Helper
 import com.example.diplomapplication.R
 
 @Composable
@@ -32,6 +38,7 @@ fun MainScreen(
     openProfile: () -> Unit,
     openEscal: () -> Unit,
     refresh: () -> Unit,
+    closeHealthAlert: () -> Unit,
 ) {
     Scaffold(
         bottomBar = {
@@ -53,7 +60,8 @@ fun MainScreen(
 
     ) { paddingValues ->
         Box(
-            modifier = Modifier.padding(paddingValues)
+            modifier = Modifier.padding(paddingValues),
+            contentAlignment = Alignment.Center,
         ) {
             LazyColumn(
                 modifier = Modifier.padding(16.dp)
@@ -119,6 +127,40 @@ fun MainScreen(
                     }
                 }
             }
+
+            if (uiState.showDownloadHealthDialog) {
+                HealthAlert(
+                    close = closeHealthAlert
+                )
+            }
         }
     }
+}
+
+@Composable
+private fun HealthAlert(
+    close: () -> Unit,
+) {
+    val uriString = "market://details?id=com.google.android.apps.healthdata&url=healthconnect%3A%2F%2Fonboarding"
+    val context = LocalContext.current
+    AlertDialog(
+        onDismissRequest = close,
+        title =  { Text(text = stringResource(R.string.health_alert_explanation)) },
+        confirmButton = {
+            Button(
+                onClick = {
+                    context.startActivity(
+                        Intent(Intent.ACTION_VIEW).apply {
+                            setPackage("com.android.vending")
+                            data = Uri.parse(uriString)
+                            putExtra("overlay", true)
+                            putExtra("callerId", context.packageName)
+                        }
+                    )
+                },
+            ) {
+                Text(stringResource(R.string.install_health_connect))
+            }
+        },
+    )
 }

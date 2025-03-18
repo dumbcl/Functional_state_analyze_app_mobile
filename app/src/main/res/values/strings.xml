@@ -35,4 +35,7 @@
     <string name="start_pass">Начать тест</string>
     <string name="last_attempt_day">Дата последнего прохождения: %s</string>
     <string name="need_to_pass_test">Требуется пройти</string>
+
+    <string name="health_alert_explanation">Для корректной работы приложения требуется установить HeathConnect, иначе данные будут ограничены</string>
+    <string name="install_health_connect">Установить HeathConnect</string>
 </resources>
