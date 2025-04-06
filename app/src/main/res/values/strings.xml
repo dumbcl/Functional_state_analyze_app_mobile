@@ -38,4 +38,12 @@
 
     <string name="health_alert_explanation">Для корректной работы приложения требуется установить HeathConnect, иначе данные будут ограничены</string>
     <string name="install_health_connect">Установить HeathConnect</string>
+
+    <string name="ppg_start">Начать измерение</string>
+    <string name="ppg_alert_explanation">Ваш пульс %s, если хотите измерить еще раз закройте окно и снова нажмите на кнопку</string>
+    <string name="ppg_alert_button">Все хорошо</string>
+    <string name="ppg_first_step">Чтобы измерить пульс вам нужно приложить указательный палец к камере смартфона так, чтобы он закрывал камеру и фонарик одновременно, когда будете готовы, нажмите на кнопку</string>
+    <string name="ppg_start_anonce">Начали!</string>
+    <string name="ppg_continue">Старайтесь держать палец плотно к камере и фонарику, цвет окошечка должен быть красным</string>
+    <string name="ppg_finish_anonce">Готово!</string>
 </resources>

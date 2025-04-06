@@ -13,3 +13,6 @@ const val ESCAL_TEST_EVERY_DAY_WALKTHROUGH_LINK = "https://www.eskal.ru/link_t.p
 const val TEST_FINISHED = "test_finished"
 
 const val PREVIOUS_TIME = "previous_time"
+
+const val PPG_FRAGMENT_REQUEST_KEY = "ppg_fragment_request_key"
+const val HEART_RATE_BUNDLE = "heart_rate_bundle"

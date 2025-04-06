@@ -37,7 +37,4 @@ class TestsRepositoryImpl(
         }
     }
 
-    override suspend fun getTimeRange(): TimeRangeFilter {
-
-    }
 }

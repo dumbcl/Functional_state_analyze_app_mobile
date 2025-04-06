@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.libs
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -83,4 +85,11 @@ dependencies {
 
     implementation ("com.google.accompanist:accompanist-webview:0.33.1-alpha")
     implementation (libs.androidx.connect.client)
+    implementation (libs.androidx.camera.core)
+    implementation (libs.androidx.camera.camera2)
+    implementation (libs.androidx.camera.lifecycle)
+    implementation (libs.androidx.camera.view)
+    implementation (libs.androidx.camera.video)
+
+    implementation ("com.google.guava:guava:31.1-android")
 }

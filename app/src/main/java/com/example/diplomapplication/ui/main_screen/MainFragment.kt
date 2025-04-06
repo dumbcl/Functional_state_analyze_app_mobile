@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.ComposeView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.PermissionController
 import androidx.health.connect.client.permission.HealthPermission
@@ -75,7 +77,7 @@ class MainFragment : Fragment() {
                     MainScreen(
                         uiState = viewModel.uiState.collectAsState().value,
                         openProfile = { viewModel.navigateToProfile() },
-                        openEscal = { viewModel.navigateToEscalTesting() },
+                        openEscal = { viewModel.navigateToPPG() },
                         refresh = { viewModel.refresh() },
                         closeHealthAlert = { viewModel.closeHealthDialog() }
                     )
