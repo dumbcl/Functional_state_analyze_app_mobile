@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/enterFragment">
 
     <fragment
         android:id="@+id/mainFragment"
@@ -119,6 +119,16 @@
         android:id="@+id/textAuditionFragment"
         android:name="com.example.diplomapplication.ui.text_audition_screen.TextAuditionFragment"
         android:label="TextAuditionFragment">
+    </fragment>
+
+    <fragment
+        android:id="@+id/enterFragment"
+        android:name="com.example.diplomapplication.ui.enter_screen.EnterScreenFragment"
+        android:label="EnterScreenFragment">
+        <action
+            android:id="@+id/action_enterFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            />
     </fragment>
 
 </navigation>

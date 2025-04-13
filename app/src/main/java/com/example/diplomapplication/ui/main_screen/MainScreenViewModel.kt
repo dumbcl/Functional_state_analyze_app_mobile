@@ -156,7 +156,7 @@ class MainScreenViewModel(
         try {
             val currentTime = LocalDateTime.now()
             val currentTimeInstant = currentTime.atZone(ZoneId.of("Europe/Moscow")).toInstant()
-            val previousTimeInstant = currentTime.minusWeeks(2).atZone(ZoneId.of("Europe/Moscow")).toInstant()
+            val previousTimeInstant = currentTime.minusWeeks(5).atZone(ZoneId.of("Europe/Moscow")).toInstant()
             val timeRange = TimeRangeFilter.between(previousTimeInstant, currentTimeInstant)
             val heartRateResponse = async {
                 healthConnectClient?.readRecords(
@@ -166,6 +166,8 @@ class MainScreenViewModel(
                     )
                 )
             }.await()
+            val records = heartRateResponse?.records?.flatMap { it.samples }.orEmpty()
+            testsRepository.postHearRateRecords(records)
         } catch (e: Exception) { }
     }
 

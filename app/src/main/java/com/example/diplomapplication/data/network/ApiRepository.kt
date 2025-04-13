@@ -1,13 +1,25 @@
 package com.example.diplomapplication.data.network
 
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiRepository {
-    @GET("everything?apiKey=005edc5cc5024d65a3fd57133a0fefd4")
-    suspend fun getNews(@Path("userId") userId: String)
+    @POST("auth/register")
+    suspend fun register(@Body user: NWUserLoginRequest): Response<NWUserResponse>
 
-    @GET("everything?q=bitcoin&apiKey=005edc5cc5024d65a3fd57133a0fefd4")
-    suspend fun getNewss(@Path("userId") userId: String)
+    @POST("auth/login")
+    suspend fun login(@Body user: NWUserLoginRequest): Response<NWUserResponse>
+
+    @POST("pulse")
+    suspend fun sendPulse(@Body heartRateRecords: List<NWHeartRateRecord>)
+
+    @GET("pulse")
+    suspend fun getPulse(
+        @Query("from") from: String,
+        @Query("to_") to: String,
+    ): List<NWHeartRateRecord>
 }

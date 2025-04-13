@@ -46,4 +46,26 @@
     <string name="ppg_start_anonce">Начали!</string>
     <string name="ppg_continue">Старайтесь держать палец плотно к камере и фонарику, цвет окошечка должен быть красным</string>
     <string name="ppg_finish_anonce">Готово!</string>
+
+    <string name="shtange_explanation_pre_exp">Для этого теста вам требуется узнать частоту своего сердцебиения, для этого вы можете использовать свое устройство и самостоятельно внести измерение, либо измерить частоту при помощи смартфона (для этого нужно нажать на кнопку ниже). После этого вам потребуется задержать дыхание, как все готово - нажмите на кнопку продолжить</string>
+    <string name="shtange_expalanation_exp">Пожалуйста, задержите дыхание на максимально возможное количество времени, как будете готовы, нажмите на кнопку "Начать"</string>
+    <string name="shtange_expalanation_exp_start">Задержите дыхание, как станет невмоготу нажмите на кнопку "Закончить"</string>
+    <string name="shtange_expalanation_post_exp">Отлично, теперь снова измерьте ЧСС и завершайте тест</string>
+    <string name="start">Начать</string>
+    <string name="finish">Закончить</string>
+    <string name="finish_test">Завершить тест</string>
+    <string name="rate_heart_by_ppg">Измерить сердцебиение</string>
+
+    <string name="enter">Войти</string>
+    <string name="entrance">Вход</string>
+    <string name="register">Зарегистрироваться</string>
+    <string name="registration">Регистрация</string>
+    <string name="password_enter_form">Пароль</string>
+    <string name="password_enter_form_hint">Введите пароль</string>
+    <string name="login_enter_form">Email или имя пользователя</string>
+    <string name="login_enter_form_hint">Введите логин</string>
+    <string name="password_registration_form_hint">Введите пароль</string>
+    <string name="password_rep_registration_form_hint">Введите пароль повторно</string>
+    <string name="email_registration_form_hint">Введите Email</string>
+    <string name="login_registration_form_hint">Введите имя пользователя</string>
 </resources>

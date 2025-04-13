@@ -5,6 +5,8 @@ import android.content.SharedPreferences
 import com.example.diplomapplication.data.TestsRepository
 import com.example.diplomapplication.data.TestsRepositoryImpl
 import com.example.diplomapplication.data.network.ApiRepository
+import com.example.diplomapplication.data.network.AuthInterceptor
+import com.example.diplomapplication.ui.enter_screen.EnterViewModel
 import com.example.diplomapplication.ui.escal_screen.EscalScreenViewModel
 import com.example.diplomapplication.ui.main_screen.MainScreenViewModel
 import com.example.diplomapplication.ui.ppg_screen.PPGScreenViewModel
@@ -37,16 +39,18 @@ val viewModelsModule = module {
     viewModel { PPGScreenViewModel() }
     viewModel { ProfileScreenViewModel() }
     viewModel { EscalScreenViewModel() }
+    viewModel { EnterViewModel(get()) }
 }
 
 val repositoryModule = module {
 
     single { provideSharedPreferences(androidContext()) }
-    single { provideOkHttpClient() }
+    single { provideAuthInterceptor(get()) }
+    single { provideOkHttpClient(get()) }
     single { provideRetrofit(get()) }
     single { provideApiService(get()) }
     single<TestsRepository> {
-        TestsRepositoryImpl(apiRepository = get())
+        TestsRepositoryImpl(apiRepository = get(), sharedPreferences = get())
     }
 }
 
@@ -55,12 +59,17 @@ private fun provideSharedPreferences(context: Context): SharedPreferences {
     return context.getSharedPreferences("APP_SHARED_PREFERENCES", Context.MODE_PRIVATE)
 }
 
-private fun provideOkHttpClient(): OkHttpClient {
+private fun provideOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient {
     return OkHttpClient.Builder()
+        .addInterceptor(authInterceptor)
         .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
         .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
         .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
         .build()
+}
+
+private fun provideAuthInterceptor(sharedPreferences: SharedPreferences): AuthInterceptor {
+    return AuthInterceptor(sharedPreferences)
 }
 
 private fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
