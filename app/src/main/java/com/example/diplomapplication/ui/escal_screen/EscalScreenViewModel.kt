@@ -1,12 +1,16 @@
 package com.example.diplomapplication.ui.escal_screen
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.example.diplomapplication.data.TestsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
-class EscalScreenViewModel(): ViewModel() {
+class EscalScreenViewModel(private val testsRepository: TestsRepository): ViewModel() {
 
     lateinit var navController : NavController
 
@@ -55,12 +59,18 @@ class EscalScreenViewModel(): ViewModel() {
         }
         val code = uiState.value.resultCode
         if (code != null) {
-            sendCode(code)
+            val rawResults = extractResTValues(code)
+            val results: List<Int> = rawResults.mapNotNull { it.split("=")[1].toFloatOrNull()?.roundToInt() }
+            sendCode(results)
             finishTest()
         }
     }
 
-    private fun sendCode(code: String) {}
+    private fun sendCode(results: List<Int>) {
+        viewModelScope.launch {
+            testsRepository.sendEscalResults(results)
+        }
+    }
 
     private fun finishTest() {
         isFinished.update { true }
@@ -70,4 +80,10 @@ class EscalScreenViewModel(): ViewModel() {
     private fun close() {
         navController.popBackStack()
     }
+
+    private fun extractResTValues(text: String): List<String> {
+        val regex = Regex("Res_T=\\d+")
+        return regex.findAll(text).map { it.value }.toList()
+    }
+
 }

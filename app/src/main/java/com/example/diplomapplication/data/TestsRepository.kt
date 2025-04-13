@@ -11,4 +11,6 @@ interface TestsRepository {
     suspend fun getTestsPassingDailyStatus(): Result<TestsDailyStatusResponse>
     suspend fun postHearRateRecords(heartRateRecords: List<HeartRateRecord.Sample>)
     suspend fun getHeartRateRecords()
+    suspend fun sendEscalResults(results: List<Int>)
+    suspend fun getEscalResult(): EscalResults
 }

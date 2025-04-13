@@ -22,4 +22,10 @@ interface ApiRepository {
         @Query("from") from: String,
         @Query("to_") to: String,
     ): List<NWHeartRateRecord>
+
+    @POST("escal-results")
+    suspend fun postEscalResults(@Body escalResults: NWEscalResults)
+
+    @GET("escal-results")
+    suspend fun getEscalResults(): NWEscalResults
 }

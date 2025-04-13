@@ -5,6 +5,7 @@ import androidx.health.connect.client.records.HeartRateRecord
 import androidx.health.connect.client.time.TimeRangeFilter
 import com.example.diplomapplication.data.network.ApiRepository
 import com.example.diplomapplication.data.network.ApiResultState
+import com.example.diplomapplication.data.network.NWEscalResults
 import com.example.diplomapplication.data.network.NWHeartRateRecord
 import com.example.diplomapplication.data.network.NWUserLoginRequest
 import com.example.diplomapplication.util.PREVIOUS_TIME
@@ -53,6 +54,37 @@ class TestsRepositoryImpl(
 
     override suspend fun getHeartRateRecords() {
         apiRepository.getPulse("", "")
+    }
+
+    override suspend fun sendEscalResults(results: List<Int>) {
+        if (results.size == 8) {
+            apiRepository.postEscalResults(
+                NWEscalResults(
+                    v1_result = results[0].or(0),
+                    v1_v2_result = results[1].or(0),
+                    v2_result = results[2].or(0),
+                    v2_v3_result = results[3].or(0),
+                    v3_result = results[4].or(0),
+                    v3_v4_result = results[5].or(0),
+                    v4_result = results[6].or(0),
+                    v4_v1_result = results[7].or(0)
+                )
+            )
+        }
+    }
+
+    override suspend fun getEscalResult(): EscalResults {
+        val results = apiRepository.getEscalResults()
+        return EscalResults(
+            v1Result = results.v1_result,
+            v1v2Result = results.v1_v2_result,
+            v2Result = results.v2_result,
+            v2v3Result = results.v2_v3_result,
+            v3Result = results.v3_result,
+            v3v4Result = results.v3_v4_result,
+            v4Result = results.v4_result,
+            v4v1Result = results.v4_v1_result
+        )
     }
 
     override suspend fun register(login: String, password: String) = flow {

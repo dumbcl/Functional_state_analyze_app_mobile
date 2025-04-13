@@ -38,7 +38,7 @@ val viewModelsModule = module {
     viewModel { MainScreenViewModel(get()) }
     viewModel { PPGScreenViewModel() }
     viewModel { ProfileScreenViewModel() }
-    viewModel { EscalScreenViewModel() }
+    viewModel { EscalScreenViewModel(get()) }
     viewModel { EnterViewModel(get()) }
 }
 
