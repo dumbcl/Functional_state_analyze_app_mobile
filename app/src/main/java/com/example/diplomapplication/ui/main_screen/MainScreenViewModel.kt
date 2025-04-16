@@ -41,6 +41,7 @@ class MainScreenViewModel(
             testsPassed = emptyList(),
             status = MainScreenState.LoadingStatus.LOADING,
             showDownloadHealthDialog = false,
+            showPersonalReport = false,
         )
     )
 

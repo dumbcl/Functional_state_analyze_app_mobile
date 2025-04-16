@@ -2,7 +2,7 @@
     <string name="app_name">DiplomApplication</string>
     <string name="main">Главная</string>
     <string name="profile">Профиль</string>
-    <string name="greeting">Привет, Пользователь</string>
+    <string name="greeting">Привет, Константин</string>
     <string name="testing">Тестирование ЭСКАЛ</string>
     <string name="open_testing">Открыть тестирование ЭСКАЛ</string>
     <string name="testing_start">Сейчас вы пройдете тест ЭСКАЛ, пожалуйста, не закрывайте экран до окончания теста</string>
@@ -68,4 +68,15 @@
     <string name="password_rep_registration_form_hint">Введите пароль повторно</string>
     <string name="email_registration_form_hint">Введите Email</string>
     <string name="login_registration_form_hint">Введите имя пользователя</string>
+    
+    <string name="personal_report_title">Персональный дневник</string>
+    <string name="personal_report_description">Опишите ваше самочувствие</string>
+    <string name="personal_report_slider_title">Оцените общую работоспособность</string>
+    <string name="personal_report_variants_title">Сравните текущий день со вчерашним</string>
+    <string name="personal_report_variants_one">Много хуже</string>
+    <string name="personal_report_variants_two">Хуже</string>
+    <string name="personal_report_variants_three">Так же</string>
+    <string name="personal_report_variants_four">Лучше</string>
+    <string name="personal_report_variants_five">Много лучше</string>
+    <string name="save">Сохранить</string>
 </resources>

@@ -28,8 +28,8 @@ class TestsRepositoryImpl(
             Result.success(
                 TestsDailyStatusResponse(
                     needTests = listOf(
-                        Test(TestType.ESCAL, null),
                         Test(TestType.SHNTANGE, null),
+                        Test(TestType.GENCH, null),
                     ),
                     passedTests = listOf(
                         Test(TestType.TEXT_AUDITION, "вчера"),

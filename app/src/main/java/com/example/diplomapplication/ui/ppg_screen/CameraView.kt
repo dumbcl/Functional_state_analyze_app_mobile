@@ -63,6 +63,7 @@ fun CameraPreview(
                 previewUseCase,
                 analysisUseCase,
             )
+            camera.cameraControl.enableTorch(true)
         }, ContextCompat.getMainExecutor(context))
     }
 }

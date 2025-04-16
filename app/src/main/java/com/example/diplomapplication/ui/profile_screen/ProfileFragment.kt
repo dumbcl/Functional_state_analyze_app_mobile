@@ -30,11 +30,90 @@ class ProfileFragment : Fragment()  {
         val navController = findNavController()
         viewModel.navController = navController
 
+        val fragment = DayEstimateDialogFragment()
+
         return ComposeView(requireContext()).apply {
             setContent {
                 DiplomApplicationTheme {
                     ProfileScreen(
-                        openMainScreen = { viewModel.navigateToMainScreen() }
+                        uiState = ProfileScreenState(
+                            "", listOf(
+                                DayEstimateItem(
+                                    date = "15 апреля 2025",
+                                    escalDaily = null,
+                                    escalDailyAverage = null,
+                                    genchDaily = "46",
+                                    genchDailyAverage = "42",
+                                    reactionsDaily = null,
+                                    reactionsDailyAverage = null,
+                                    rufieDaily = "8",
+                                    rufieDailyAverage = "7",
+                                    shtangeDaily = "56",
+                                    shtangeDailyAverage = "52",
+                                    strupDaily = "77",
+                                    strupDailyAverage = "68",
+                                    textAuditionDaily = null,
+                                    textAuditionDailyAverage = null,
+                                    bogomazovDaily = null,
+                                    bogomazovDailyAverage = null,
+                                    personalReport = null,
+                                    pulseAverageDaily = "81",
+                                    pulseMaxDaily = "98",
+                                    pulseMinDaily = "66",
+                                    type = EstimateType.GOOD
+                                ),
+                                DayEstimateItem(
+                                    date = "15 апреля 2025",
+                                    escalDaily = null,
+                                    escalDailyAverage = null,
+                                    genchDaily = "46",
+                                    genchDailyAverage = "42",
+                                    reactionsDaily = null,
+                                    reactionsDailyAverage = null,
+                                    rufieDaily = "8",
+                                    rufieDailyAverage = "7",
+                                    shtangeDaily = "56",
+                                    shtangeDailyAverage = "52",
+                                    strupDaily = "77",
+                                    strupDailyAverage = "68",
+                                    textAuditionDaily = null,
+                                    textAuditionDailyAverage = null,
+                                    bogomazovDaily = null,
+                                    bogomazovDailyAverage = null,
+                                    personalReport = null,
+                                    pulseAverageDaily = "81",
+                                    pulseMaxDaily = "98",
+                                    pulseMinDaily = "66",
+                                    type = EstimateType.BAD
+                                ),
+                                DayEstimateItem(
+                                    date = "15 апреля 2025",
+                                    escalDaily = null,
+                                    escalDailyAverage = null,
+                                    genchDaily = "46",
+                                    genchDailyAverage = "42",
+                                    reactionsDaily = null,
+                                    reactionsDailyAverage = null,
+                                    rufieDaily = "8",
+                                    rufieDailyAverage = "7",
+                                    shtangeDaily = "56",
+                                    shtangeDailyAverage = "52",
+                                    strupDaily = "77",
+                                    strupDailyAverage = "68",
+                                    textAuditionDaily = null,
+                                    textAuditionDailyAverage = null,
+                                    bogomazovDaily = null,
+                                    bogomazovDailyAverage = null,
+                                    personalReport = null,
+                                    pulseAverageDaily = "81",
+                                    pulseMaxDaily = "98",
+                                    pulseMinDaily = "66",
+                                    type = EstimateType.MEDIUM
+                                )
+                            )
+                        ),
+                        openMainScreen = { viewModel.navigateToMainScreen() },
+                        onDayClick = { fragment.show(parentFragmentManager, "DayEstimateDialog") }
                     )
                 }
             }

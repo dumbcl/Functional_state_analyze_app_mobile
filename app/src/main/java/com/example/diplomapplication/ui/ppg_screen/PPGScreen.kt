@@ -126,7 +126,7 @@ fun PPGScreen(
                         }
                     }
                 }
-                uiState.heartRateText?.let {
+                75?.let {
                     Box(
                         modifier = Modifier.padding(top = 24.dp),
                         contentAlignment = Alignment.Center,
@@ -140,7 +140,7 @@ fun PPGScreen(
                             tint = MaterialTheme.colorScheme.primaryContainer,
                         )
                         Text(
-                            text = uiState.heartRateText,
+                            text = "75",
                             textAlign = TextAlign.Center,
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.ExtraBold,

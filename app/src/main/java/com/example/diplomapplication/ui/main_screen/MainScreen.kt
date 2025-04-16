@@ -90,6 +90,14 @@ fun MainScreen(
                     }
                     MainScreenState.LoadingStatus.SUCCESS -> {
                         item {
+                            PersonalReportSnippet(
+                                onSave = {_,_  -> Unit},
+                            )
+                        }
+                        item {
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
+                        item {
                             Text(
                                 text = stringResource(R.string.test_to_pass_today),
                                 style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),

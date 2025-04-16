@@ -77,7 +77,7 @@ class MainFragment : Fragment() {
                     MainScreen(
                         uiState = viewModel.uiState.collectAsState().value,
                         openProfile = { viewModel.navigateToProfile() },
-                        openEscal = { viewModel.navigateToEscalTesting() },
+                        openEscal = { viewModel.navigateToPPG() },
                         refresh = { viewModel.refresh() },
                         closeHealthAlert = { viewModel.closeHealthDialog() }
                     )
