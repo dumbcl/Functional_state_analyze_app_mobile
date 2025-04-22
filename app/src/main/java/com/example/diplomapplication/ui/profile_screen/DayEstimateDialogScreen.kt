@@ -119,9 +119,6 @@ fun DayEstimateDialogScreen(
                 }
             }
         }
-        item {
-            Space
-        }
     }
 }
 

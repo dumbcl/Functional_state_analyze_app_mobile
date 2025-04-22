@@ -92,16 +92,16 @@ class PPGFragment : Fragment()  {
                         getText(R.string.ppg_start_anonce).toString()
                     }
                     state.timerText == "8" -> {
-                        viewModel.updateTextToSpeak(getText(R.string.ppg_continue).toString())
-                        getText(R.string.ppg_continue).toString()
+                        viewModel.updateTextToSpeak(getString(R.string.ppg_continue))
+                        getString(R.string.ppg_continue)
                     }
                     state.timerText == "30" -> {
-                        viewModel.updateTextToSpeak(getText(R.string.ppg_finish_anonce).toString())
-                        getText(R.string.ppg_finish_anonce).toString()
+                        viewModel.updateTextToSpeak(getString(R.string.ppg_finish_anonce))
+                        getString(R.string.ppg_finish_anonce)
                     }
                     state.isFinishAlertVisible -> {
-                        viewModel.updateTextToSpeak(getText(R.string.ppg_first_step).toString())
-                        getText(R.string.ppg_alert_explanation).toString()
+                        viewModel.updateTextToSpeak(getString(R.string.ppg_first_step))
+                        getString(R.string.ppg_alert_explanation, (viewModel.heartRate ?: 0).toString())
                     }
                     else -> null
                 }

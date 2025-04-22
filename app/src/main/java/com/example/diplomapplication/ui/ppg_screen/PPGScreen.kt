@@ -91,7 +91,6 @@ fun PPGScreen(
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.ExtraBold,
                         modifier = Modifier
-                            .scale(heartbeatAnimation)
                             .padding(top = 32.dp)
                     )
                 }
@@ -126,7 +125,7 @@ fun PPGScreen(
                         }
                     }
                 }
-                75?.let {
+                uiState.heartRateText?.let {
                     Box(
                         modifier = Modifier.padding(top = 24.dp),
                         contentAlignment = Alignment.Center,
@@ -140,7 +139,7 @@ fun PPGScreen(
                             tint = MaterialTheme.colorScheme.primaryContainer,
                         )
                         Text(
-                            text = "75",
+                            text = uiState.heartRateText,
                             textAlign = TextAlign.Center,
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.ExtraBold,
@@ -152,6 +151,7 @@ fun PPGScreen(
                 FinishAlert(
                     close = closeAlert,
                     finish = close,
+                    heartRate = uiState.heartRateText.orEmpty(),
                 )
             }
         }
@@ -162,10 +162,11 @@ fun PPGScreen(
 private fun FinishAlert(
     close: () -> Unit,
     finish: () -> Unit,
+    heartRate: String,
 ) {
     AlertDialog(
         onDismissRequest = close,
-        title =  { Text(text = stringResource(R.string.ppg_alert_explanation)) },
+        title =  { Text(text = stringResource(R.string.ppg_alert_explanation, heartRate)) },
         confirmButton = {
             Button(
                 onClick = finish,

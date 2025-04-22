@@ -28,4 +28,6 @@ interface ApiRepository {
 
     @GET("escal-results")
     suspend fun getEscalResults(): NWEscalResults
+
+//    @POST("shtange-test")
 }

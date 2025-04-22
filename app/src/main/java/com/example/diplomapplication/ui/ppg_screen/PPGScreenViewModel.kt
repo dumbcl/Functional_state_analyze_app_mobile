@@ -31,11 +31,14 @@ class PPGScreenViewModel(): ViewModel()  {
     private var heartMeasureSum = 0
 
     fun startRecord() {
+        heartMeasuresCount = 0
+        heartMeasureSum   = 0
+        _uiState.update { it.copy(isRecording = true) }
         startTimerDown()
     }
 
     private fun startTimerDown() {
-        val countDownTimer = object : CountDownTimer(5000, 1000) {
+        val countDownTimer = object : CountDownTimer(4000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 _uiState.update {
                     uiState.value.copy(
@@ -80,6 +83,7 @@ class PPGScreenViewModel(): ViewModel()  {
         _uiState.update {
             uiState.value.copy(
                 isFinishAlertVisible = false,
+                heartRateText = null,
             )
         }
     }
