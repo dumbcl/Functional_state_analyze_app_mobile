@@ -1,6 +1,6 @@
-package com.example.diplomapplication.ui.shtange_screen
+package com.example.diplomapplication.ui.gench_screen
 
-data class ShtangeScreenState(
+data class GenchScreenState(
     val textToSpeak: String?,
     val secondsText: String?,
     val screenState: ScreenState,

@@ -8,13 +8,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.example.diplomapplication.R
+import com.example.diplomapplication.data.ShtangeTestResults
+import com.example.diplomapplication.data.TestsRepository
+import com.example.diplomapplication.ui.main_screen.MainFragmentDirections
 import com.example.diplomapplication.ui.ppg_screen.PPGScreenState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class ShtangeScreenViewModel(): ViewModel()  {
+class ShtangeScreenViewModel(
+    private val testsRepository: TestsRepository
+): ViewModel()  {
 
     lateinit var navController : NavController
 
@@ -25,7 +30,7 @@ class ShtangeScreenViewModel(): ViewModel()  {
             textToSpeak = null,
             secondsText = null,
             heartRateText = null,
-            screenState = ShtangeScreenState.ScreenState.PRE_EXPERIMENT
+            screenState = ShtangeScreenState.ScreenState.PRE_EXPERIMENT_CHECK
         )
     )
     val uiState = _uiState.asStateFlow()
@@ -54,8 +59,18 @@ class ShtangeScreenViewModel(): ViewModel()  {
         }
     }
 
-    fun startExperiment() {
-        //updateTextToSpeak()
+    fun changeToPreExpState(textChange: String) {
+        updateTextToSpeak(textChange)
+        _uiState.update {
+            uiState.value.copy(
+                heartRateText = null,
+                screenState = ShtangeScreenState.ScreenState.PRE_EXPERIMENT
+            )
+        }
+    }
+
+    fun startExperiment(textChange: String) {
+        updateTextToSpeak(textChange)
         startTime = System.currentTimeMillis()
         preExpHeartRate = uiState.value.heartRateText?.toInt()
         _uiState.update {
@@ -67,7 +82,8 @@ class ShtangeScreenViewModel(): ViewModel()  {
         handler.postDelayed(updateTimerThread, 0)
     }
 
-    fun finishExperiment() {
+    fun finishExperiment(textChange: String) {
+        updateTextToSpeak(textChange)
         finishTime = System.currentTimeMillis()
         _uiState.update {
             uiState.value.copy(
@@ -100,6 +116,15 @@ class ShtangeScreenViewModel(): ViewModel()  {
 
     fun finishTest() {
         postExpHeartRate = uiState.value.heartRateText?.toInt()
+        viewModelScope.launch {
+            testsRepository.sendShtangeTestResults(
+                ShtangeTestResults(
+                    heartRateBefore = preExpHeartRate,
+                    secondsNumber = ((finishTime - startTime) / 1000).toInt(),
+                    heartRateAfter = postExpHeartRate,
+                )
+            )
+        }
         isFinished.update { true }
         close()
     }
@@ -109,6 +134,6 @@ class ShtangeScreenViewModel(): ViewModel()  {
     }
 
     fun openPPG() {
-
+        navController.navigate(ShtangeFragmentDirections.actionShtangeFragmentToPpgFragment())
     }
 }

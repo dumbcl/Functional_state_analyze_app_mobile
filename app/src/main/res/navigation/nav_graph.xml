@@ -93,6 +93,10 @@
         android:id="@+id/genchFragment"
         android:name="com.example.diplomapplication.ui.gench_screen.GenchFragment"
         android:label="GenchFragment">
+        <action
+            android:id="@+id/action_genchFragment_to_ppgFragment"
+            app:destination="@id/ppgFragment"
+            />
     </fragment>
 
     <fragment
@@ -111,6 +115,10 @@
         android:id="@+id/shtangeFragment"
         android:name="com.example.diplomapplication.ui.shtange_screen.ShtangeFragment"
         android:label="ShtangeFragment">
+        <action
+            android:id="@+id/action_shtangeFragment_to_ppgFragment"
+            app:destination="@id/ppgFragment"
+            />
     </fragment>
 
     <fragment

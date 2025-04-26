@@ -13,4 +13,6 @@ interface TestsRepository {
     suspend fun getHeartRateRecords()
     suspend fun sendEscalResults(results: List<Int>)
     suspend fun getEscalResult(): EscalResults
+    suspend fun sendShtangeTestResults(results: ShtangeTestResults)
+    suspend fun sendGenchTestResults(results: GenchTestResults)
 }

@@ -87,6 +87,14 @@ class TestsRepositoryImpl(
         )
     }
 
+    override suspend fun sendShtangeTestResults(results: ShtangeTestResults) {
+        //do nothing
+    }
+
+    override suspend fun sendGenchTestResults(results: GenchTestResults) {
+        //do nothing
+    }
+
     override suspend fun register(login: String, password: String) = flow {
         try {
             val result = apiRepository.register(NWUserLoginRequest(login, password))

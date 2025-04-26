@@ -4,6 +4,7 @@ import android.os.SystemClock
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import java.util.ArrayDeque
+import kotlin.math.roundToInt
 
 class HeartRateAnalyzer(
     private val onBpmReady: (Int) -> Unit,
@@ -54,7 +55,7 @@ class HeartRateAnalyzer(
         val elapsedSec = (now - startTimeMs) / 1_000f
         if (elapsedSec >= measureSec) {
             val bpm = (peakCount / elapsedSec * 60).toInt()
-            onBpmReady(bpm + 5)
+            onBpmReady((bpm.toFloat() * 1.5f).roundToInt())
             peakCount = 0
             lastCrossUp = false
             rawValues.clear()

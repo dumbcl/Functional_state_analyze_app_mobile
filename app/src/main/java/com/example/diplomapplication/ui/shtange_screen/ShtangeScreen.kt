@@ -10,6 +10,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.Send
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ButtonElevation
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -32,8 +34,9 @@ fun ShtangeScreen(
     uiState: ShtangeScreenState,
     closeScreen: () -> Unit,
     finishTest: () -> Unit,
-    startExperiment: () -> Unit,
-    stopExperiment: () -> Unit,
+    startExperiment: (String) -> Unit,
+    stopExperiment: (String) -> Unit,
+    changeToPreExperiment: (String) -> Unit,
     openPPG: () -> Unit,
     onHeartRateChange: (String) -> Unit,
 ) {
@@ -41,7 +44,7 @@ fun ShtangeScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text("")
+                    Text(stringResource(R.string.shtange_test))
                 },
                 navigationIcon = {
                     Icon(
@@ -67,7 +70,7 @@ fun ShtangeScreen(
                 uiState.textToSpeak?.let {
                     Text(
                         text = uiState.textToSpeak,
-                        style = MaterialTheme.typography.headlineMedium,
+                        style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
                 }
@@ -80,8 +83,9 @@ fun ShtangeScreen(
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier.padding(bottom = 16.dp)
                             )
+                            val finishText = stringResource(R.string.shtange_expalanation_post_exp)
                             Button(
-                                onClick = stopExperiment,
+                                onClick = {stopExperiment(finishText)},
                             ) {
                                 Text(
                                     stringResource(R.string.finish)
@@ -89,13 +93,14 @@ fun ShtangeScreen(
                             }
                         }
                     }
-                    ShtangeScreenState.ScreenState.PRE_EXPERIMENT -> {
+                    ShtangeScreenState.ScreenState.PRE_EXPERIMENT_CHECK -> {
+                        val preExpText = stringResource(R.string.shtange_expalanation_pre_exp)
                         shtangeBlocks(
                             heartRateText = uiState.heartRateText,
                             onHeartRateChange = onHeartRateChange,
                             openPPG = openPPG,
-                            mainButtonText = stringResource(R.string.start),
-                            mainButtonAction = startExperiment,
+                            mainButtonText = stringResource(R.string.continue_test),
+                            mainButtonAction = {changeToPreExperiment(preExpText)},
                         )
                     }
                     ShtangeScreenState.ScreenState.POST_EXPERIMENT -> {
@@ -106,6 +111,18 @@ fun ShtangeScreen(
                             mainButtonText = stringResource(R.string.finish_test),
                             mainButtonAction = finishTest,
                         )
+                    }
+
+                    ShtangeScreenState.ScreenState.PRE_EXPERIMENT -> {
+                        val expText = stringResource(R.string.shtange_expalanation_exp_start)
+                        Button(
+                            onClick = {startExperiment(expText)},
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.start)
+                            )
+                        }
                     }
                 }
             }
@@ -123,19 +140,20 @@ private fun ColumnScope.shtangeBlocks(
 ) {
     TextField(
         value = heartRateText.orEmpty(),
-        onValueChange = { onHeartRateChange(it) },
+        onValueChange = { onHeartRateChange(it.filter { it.isDigit() }) },
         modifier = Modifier.padding(bottom = 8.dp)
     )
     Button(
         onClick = openPPG,
+        colors = ButtonDefaults.filledTonalButtonColors(),
         modifier = Modifier.padding(bottom = 16.dp)
-
     ) {
         Text(stringResource(R.string.rate_heart_by_ppg))
     }
 
     Button(
         onClick = mainButtonAction,
+        enabled = heartRateText.orEmpty().isNotEmpty(),
         modifier = Modifier.align(Alignment.CenterHorizontally)
     ) {
         Text(
