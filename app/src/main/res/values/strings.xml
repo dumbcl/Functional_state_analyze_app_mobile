@@ -86,4 +86,14 @@
     <string name="gench_test">Проба Генча</string>
     <string name="gench_expalanation_pre_exp">Вы должны сидя глубоко выдохнуть и задержать дыхание.</string>
 
+    <string name="rufie_test">Проба Руфье</string>
+
+    <string name="rufie_explanation_pre_rest">Сейчас вам предстоит тест с приседаниями, но сначала нужно 5 минут спокойно посидеть. Нажмите «Начать», чтобы запустить таймер.</string>
+    <string name="rufie_explanation_rest">Отдыхайте, сохраняйте спокойное дыхание — идёт таймер отдыха.</string>
+    <string name="rufie_explanation_p1_input">Теперь измерьте частоту сердечных сокращений за 15 секунд. Введите её вручную или нажмите «Измерить ЧСС» для съёмки с помощью смартфона.</string>
+    <string name="rufie_explanation_pre_exercise">Сейчас вам предстоит сделать 30 приседаний за 45 секунд. Как будете готовы — нажмите «Начать».</string>
+    <string name="rufie_explanation_exercise">Приседайте! Держите ровный темп, осталось совсем немного.</string>
+    <string name="rufie_explanation_p2_input">Сразу после приседаний сядьте и снова измерьте пульс (первые 15 секунд отдыха). Введите результат.</string>
+    <string name="rufie_explanation_rest_45">Отдыхайте 45 секунд. Затем мы измерим пульс ещё раз.</string>
+    <string name="rufie_explanation_p3_input">Снова измерьте пульс за 15 секунд и введите значение. После этого тест завершится.</string>
 </resources>

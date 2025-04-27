@@ -1,7 +1,6 @@
 package com.example.diplomapplication.data
 
 import androidx.health.connect.client.records.HeartRateRecord
-import androidx.health.connect.client.time.TimeRangeFilter
 import com.example.diplomapplication.data.network.ApiResultState
 import kotlinx.coroutines.flow.Flow
 
@@ -15,4 +14,5 @@ interface TestsRepository {
     suspend fun getEscalResult(): EscalResults
     suspend fun sendShtangeTestResults(results: ShtangeTestResults)
     suspend fun sendGenchTestResults(results: GenchTestResults)
+    suspend fun sendRufieTestResults(results: RufieTestResults)
 }

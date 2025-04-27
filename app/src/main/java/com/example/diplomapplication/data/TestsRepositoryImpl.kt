@@ -95,6 +95,10 @@ class TestsRepositoryImpl(
         //do nothing
     }
 
+    override suspend fun sendRufieTestResults(results: RufieTestResults) {
+        //do nothing
+    }
+
     override suspend fun register(login: String, password: String) = flow {
         try {
             val result = apiRepository.register(NWUserLoginRequest(login, password))

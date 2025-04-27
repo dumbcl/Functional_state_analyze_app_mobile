@@ -12,6 +12,7 @@ import com.example.diplomapplication.ui.gench_screen.GenchScreenViewModel
 import com.example.diplomapplication.ui.main_screen.MainScreenViewModel
 import com.example.diplomapplication.ui.ppg_screen.PPGScreenViewModel
 import com.example.diplomapplication.ui.profile_screen.ProfileScreenViewModel
+import com.example.diplomapplication.ui.rufie_screen.RufieScreenViewModel
 import com.example.diplomapplication.ui.shtange_screen.ShtangeScreenViewModel
 import com.example.diplomapplication.util.API_ENDPOINT
 import com.example.diplomapplication.util.CONNECT_TIMEOUT
@@ -44,6 +45,7 @@ val viewModelsModule = module {
     viewModel { EnterViewModel(get()) }
     viewModel { ShtangeScreenViewModel(get()) }
     viewModel { GenchScreenViewModel(get()) }
+    viewModel { RufieScreenViewModel(get()) }
 }
 
 val repositoryModule = module {

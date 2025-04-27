@@ -1,22 +1,162 @@
 package com.example.diplomapplication.ui.rufie_screen
 
+import android.os.Handler
+import android.os.Looper
+import android.speech.tts.TextToSpeech
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.example.diplomapplication.R
+import com.example.diplomapplication.data.RufieTestResults
+import com.example.diplomapplication.data.TestsRepository
+import com.example.diplomapplication.ui.shtange_screen.ShtangeFragmentDirections
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
-class RufieScreenViewModel: ViewModel()  {
+class RufieScreenViewModel(
+    private val testsRepository: TestsRepository,
+) : ViewModel() {
 
-    lateinit var navController : NavController
+    lateinit var navController: NavController
+    var tts: TextToSpeech? = null
+    lateinit var str: (Int) -> String      // будет привязан во фрагменте
 
-    val isFinished = MutableStateFlow(false)
+    private val _uiState = MutableStateFlow(RufieScreenState())
+    val uiState = _uiState.asStateFlow()
 
-   fun finishTest() {
-        isFinished.update { true }
+    private var p1: Int? = null
+    private var p2: Int? = null
+    private var p3: Int? = null
+
+    /* ---------------- секционный таймер ---------------- */
+
+    private val handler = Handler(Looper.getMainLooper())
+    private var finishAt = 0L
+    private val ticker = object : Runnable {
+        override fun run() {
+            val leftMs = (finishAt - System.currentTimeMillis()).coerceAtLeast(0)
+            _uiState.update {
+                it.copy(
+                    secondsText = "%02d:%02d".format(
+                        (leftMs / 1000 / 60), (leftMs / 1000 % 60)
+                    )
+                )
+            }
+            if (leftMs > 0) handler.postDelayed(this, 1000) else onTimerFinished()
+        }
+    }
+
+    private fun startTimer(state: RufieScreenState.ScreenState, d: Duration) {
+        finishAt = System.currentTimeMillis() + d.inWholeMilliseconds
+        _uiState.update { it.copy(screenState = state, secondsText = null) }
+        handler.removeCallbacks(ticker)
+        handler.post(ticker)
+    }
+
+    /* ---------------- публичные события UI ---------------- */
+
+    fun onMainButtonClicked() = when (_uiState.value.screenState) {
+        RufieScreenState.ScreenState.PRE_REST       -> startRestPhase()
+        RufieScreenState.ScreenState.P1_INPUT       -> onP1Entered()
+        RufieScreenState.ScreenState.PRE_EXERCISE   -> startExercisePhase()
+        RufieScreenState.ScreenState.P2_INPUT       -> onP2Entered()
+        RufieScreenState.ScreenState.P3_INPUT       -> finishTest()
+        else -> Unit
+    }
+
+    fun updateHeartRateText(txt: String?) =
+        _uiState.update { it.copy(heartRateText = txt) }
+
+    fun openPPG() {
+        navController.navigate(RufieFragmentDirections.actionRufieFragmentToPpgFragment())
+    }
+
+    /* ---------------- переходы фаз ---------------- */
+
+    private fun startRestPhase() {
+        say(R.string.rufie_explanation_rest)
+        startTimer(RufieScreenState.ScreenState.REST, 1.minutes)
+    }
+
+    private fun onRestFinished() {          // REST → P1_INPUT
+        say(R.string.rufie_explanation_p1_input)
+        _uiState.update {
+            it.copy(screenState = RufieScreenState.ScreenState.P1_INPUT, heartRateText = null)
+        }
+    }
+
+    private fun onP1Entered() {             // P1_INPUT → PRE_EXERCISE
+        p1 = _uiState.value.heartRateText?.toIntOrNull()
+        say(R.string.rufie_explanation_pre_exercise)
+        _uiState.update {
+            it.copy(screenState = RufieScreenState.ScreenState.PRE_EXERCISE)
+        }
+    }
+
+    private fun startExercisePhase() {
+        say(R.string.rufie_explanation_exercise)
+        startTimer(RufieScreenState.ScreenState.EXERCISE, 45.seconds)
+    }
+
+    private fun onExerciseFinished() {      // EXERCISE → P2_INPUT
+        say(R.string.rufie_explanation_p2_input)
+        _uiState.update {
+            it.copy(screenState = RufieScreenState.ScreenState.P2_INPUT, heartRateText = null)
+        }
+    }
+
+    private fun onP2Entered() {             // P2_INPUT → REST_45
+        p2 = _uiState.value.heartRateText?.toIntOrNull()
+        say(R.string.rufie_explanation_rest_45)
+        startTimer(RufieScreenState.ScreenState.REST_45, 45.seconds)
+    }
+
+    private fun onRest45Finished() {        // REST_45 → P3_INPUT
+        say(R.string.rufie_explanation_p3_input)
+        _uiState.update {
+            it.copy(screenState = RufieScreenState.ScreenState.P3_INPUT, heartRateText = null)
+        }
+    }
+
+    private fun finishTest() {
+        p3 = _uiState.value.heartRateText?.toIntOrNull()
+        viewModelScope.launch {
+            testsRepository.sendRufieTestResults(
+                RufieTestResults(
+                    heartRateRest = p1,
+                    heartRateAfterExercise = p2,
+                    heartRateAfterRest = p3,
+                )
+            )
+        }
         close()
     }
 
+    /* ---------------- таймер коллбэк ---------------- */
+
+    private fun onTimerFinished() = when (_uiState.value.screenState) {
+        RufieScreenState.ScreenState.REST    -> onRestFinished()
+        RufieScreenState.ScreenState.EXERCISE -> onExerciseFinished()
+        RufieScreenState.ScreenState.REST_45 -> onRest45Finished()
+        else -> Unit
+    }
+
+    /* ---------------- утилиты ---------------- */
+
+    fun say(resId: Int) =
+        str(resId).also { text ->
+            _uiState.update { it.copy(textToSpeak = text) }
+            tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
+        }
+
     fun close() {
+        handler.removeCallbacks(ticker)
         navController.popBackStack()
     }
 }
+

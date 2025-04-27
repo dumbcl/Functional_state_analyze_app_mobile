@@ -11,3 +11,9 @@ data class GenchTestResults(
     val secondsNumber: Int,
     val heartRateAfter: Int?,
 )
+
+data class RufieTestResults(
+    val heartRateRest: Int?,
+    val heartRateAfterExercise: Int?,
+    val heartRateAfterRest: Int?,
+)

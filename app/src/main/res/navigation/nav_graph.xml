@@ -109,6 +109,10 @@
         android:id="@+id/rufieFragment"
         android:name="com.example.diplomapplication.ui.rufie_screen.RufieFragment"
         android:label="RufieFragment">
+        <action
+            android:id="@+id/action_rufieFragment_to_ppgFragment"
+            app:destination="@id/ppgFragment"
+            />
     </fragment>
 
     <fragment
