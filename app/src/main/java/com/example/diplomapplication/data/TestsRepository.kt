@@ -15,4 +15,5 @@ interface TestsRepository {
     suspend fun sendShtangeTestResults(results: ShtangeTestResults)
     suspend fun sendGenchTestResults(results: GenchTestResults)
     suspend fun sendRufieTestResults(results: RufieTestResults)
+    suspend fun sendReactionsTestResults(results: ReactionsTestResults)
 }

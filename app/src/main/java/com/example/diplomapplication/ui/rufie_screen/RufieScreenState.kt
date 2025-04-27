@@ -7,13 +7,13 @@ data class RufieScreenState(
     val screenState: ScreenState = ScreenState.PRE_REST,
 ) {
     enum class ScreenState {
-        PRE_REST,      // «Сейчас вам предстоит тест…», кнопка «Начать»
-        REST,          // 5-минутный таймер «Отдыхайте»
-        P1_INPUT,      // ввод P1
-        PRE_EXERCISE,  // пояснение перед приседаниями
-        EXERCISE,      // 45-сек «Приседайте»
-        P2_INPUT,      // ввод P2
-        REST_45,       // 45-сек «Отдыхайте»
-        P3_INPUT       // ввод P3 и кнопка «Закончить»
+        PRE_REST,
+        REST,
+        P1_INPUT,
+        PRE_EXERCISE,
+        EXERCISE,
+        P2_INPUT,
+        REST_45,
+        P3_INPUT
     }
 }

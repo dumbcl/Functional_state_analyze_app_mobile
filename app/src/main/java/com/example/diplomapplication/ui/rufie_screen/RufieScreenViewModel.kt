@@ -9,7 +9,6 @@ import androidx.navigation.NavController
 import com.example.diplomapplication.R
 import com.example.diplomapplication.data.RufieTestResults
 import com.example.diplomapplication.data.TestsRepository
-import com.example.diplomapplication.ui.shtange_screen.ShtangeFragmentDirections
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -24,7 +23,7 @@ class RufieScreenViewModel(
 
     lateinit var navController: NavController
     var tts: TextToSpeech? = null
-    lateinit var str: (Int) -> String      // будет привязан во фрагменте
+    lateinit var str: (Int) -> String
 
     private val _uiState = MutableStateFlow(RufieScreenState())
     val uiState = _uiState.asStateFlow()
@@ -32,8 +31,6 @@ class RufieScreenViewModel(
     private var p1: Int? = null
     private var p2: Int? = null
     private var p3: Int? = null
-
-    /* ---------------- секционный таймер ---------------- */
 
     private val handler = Handler(Looper.getMainLooper())
     private var finishAt = 0L
@@ -58,14 +55,12 @@ class RufieScreenViewModel(
         handler.post(ticker)
     }
 
-    /* ---------------- публичные события UI ---------------- */
-
     fun onMainButtonClicked() = when (_uiState.value.screenState) {
-        RufieScreenState.ScreenState.PRE_REST       -> startRestPhase()
-        RufieScreenState.ScreenState.P1_INPUT       -> onP1Entered()
-        RufieScreenState.ScreenState.PRE_EXERCISE   -> startExercisePhase()
-        RufieScreenState.ScreenState.P2_INPUT       -> onP2Entered()
-        RufieScreenState.ScreenState.P3_INPUT       -> finishTest()
+        RufieScreenState.ScreenState.PRE_REST -> startRestPhase()
+        RufieScreenState.ScreenState.P1_INPUT -> onP1Entered()
+        RufieScreenState.ScreenState.PRE_EXERCISE -> startExercisePhase()
+        RufieScreenState.ScreenState.P2_INPUT -> onP2Entered()
+        RufieScreenState.ScreenState.P3_INPUT -> finishTest()
         else -> Unit
     }
 
@@ -76,21 +71,19 @@ class RufieScreenViewModel(
         navController.navigate(RufieFragmentDirections.actionRufieFragmentToPpgFragment())
     }
 
-    /* ---------------- переходы фаз ---------------- */
-
     private fun startRestPhase() {
         say(R.string.rufie_explanation_rest)
         startTimer(RufieScreenState.ScreenState.REST, 1.minutes)
     }
 
-    private fun onRestFinished() {          // REST → P1_INPUT
+    private fun onRestFinished() {
         say(R.string.rufie_explanation_p1_input)
         _uiState.update {
             it.copy(screenState = RufieScreenState.ScreenState.P1_INPUT, heartRateText = null)
         }
     }
 
-    private fun onP1Entered() {             // P1_INPUT → PRE_EXERCISE
+    private fun onP1Entered() {
         p1 = _uiState.value.heartRateText?.toIntOrNull()
         say(R.string.rufie_explanation_pre_exercise)
         _uiState.update {
@@ -103,20 +96,20 @@ class RufieScreenViewModel(
         startTimer(RufieScreenState.ScreenState.EXERCISE, 45.seconds)
     }
 
-    private fun onExerciseFinished() {      // EXERCISE → P2_INPUT
+    private fun onExerciseFinished() {
         say(R.string.rufie_explanation_p2_input)
         _uiState.update {
             it.copy(screenState = RufieScreenState.ScreenState.P2_INPUT, heartRateText = null)
         }
     }
 
-    private fun onP2Entered() {             // P2_INPUT → REST_45
+    private fun onP2Entered() {
         p2 = _uiState.value.heartRateText?.toIntOrNull()
         say(R.string.rufie_explanation_rest_45)
         startTimer(RufieScreenState.ScreenState.REST_45, 45.seconds)
     }
 
-    private fun onRest45Finished() {        // REST_45 → P3_INPUT
+    private fun onRest45Finished() {
         say(R.string.rufie_explanation_p3_input)
         _uiState.update {
             it.copy(screenState = RufieScreenState.ScreenState.P3_INPUT, heartRateText = null)
@@ -137,16 +130,12 @@ class RufieScreenViewModel(
         close()
     }
 
-    /* ---------------- таймер коллбэк ---------------- */
-
     private fun onTimerFinished() = when (_uiState.value.screenState) {
         RufieScreenState.ScreenState.REST    -> onRestFinished()
         RufieScreenState.ScreenState.EXERCISE -> onExerciseFinished()
         RufieScreenState.ScreenState.REST_45 -> onRest45Finished()
         else -> Unit
     }
-
-    /* ---------------- утилиты ---------------- */
 
     fun say(resId: Int) =
         str(resId).also { text ->

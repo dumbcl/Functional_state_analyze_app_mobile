@@ -17,3 +17,8 @@ data class RufieTestResults(
     val heartRateAfterExercise: Int?,
     val heartRateAfterRest: Int?,
 )
+
+data class ReactionsTestResults(
+    val visual: List<Pair<Long, Long>>,
+    val audio: List<Pair<Long, Long>>,
+)
