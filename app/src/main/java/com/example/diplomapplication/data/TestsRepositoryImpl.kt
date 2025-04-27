@@ -103,6 +103,10 @@ class TestsRepositoryImpl(
         //do nothing
     }
 
+    override suspend fun sendStrupTestResults(result: Int) {
+        //do nothing
+    }
+
     override suspend fun register(login: String, password: String) = flow {
         try {
             val result = apiRepository.register(NWUserLoginRequest(login, password))

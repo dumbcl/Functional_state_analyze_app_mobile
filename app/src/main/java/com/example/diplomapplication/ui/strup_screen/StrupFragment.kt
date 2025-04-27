@@ -1,46 +1,55 @@
 package com.example.diplomapplication.ui.strup_screen
 
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.ComposeView
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
+import com.example.diplomapplication.R
 import com.example.diplomapplication.ui.theme.DiplomApplicationTheme
-import com.example.diplomapplication.util.TEST_FINISHED
-import com.example.diplomapplication.data.TestType
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import kotlin.getValue
+import java.util.Locale
 
-class StrupFragment: Fragment() {
+class StrupFragment : Fragment() {
 
     private val viewModel: StrupScreenViewModel by viewModel()
+    private var tts: TextToSpeech? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
+        viewModel.navController = findNavController()
+        viewModel.str = { getText(it).toString() }
 
-        val navController = findNavController()
-        viewModel.navController = navController
+        tts = TextToSpeech(requireContext()) { status ->
+            if (status == TextToSpeech.SUCCESS) {
+                tts?.language = Locale.getDefault()
+                viewModel.tts = tts
+                val intro = getText(R.string.strup_description).toString()
+                viewModel.uiState.value.text ?: viewModel.updateText(intro)
+            }
+        }
 
         return ComposeView(requireContext()).apply {
             setContent {
                 DiplomApplicationTheme {
                     StrupScreen(
-                        closeScreen = { viewModel.close() },
-                        finishTest = { viewModel.finishTest() },
+                        uiState = viewModel.uiState.collectAsState().value,
+                        start = viewModel::onStartClicked,
+                        finish = viewModel::onFinishClicked,
+                        back = viewModel::close
                     )
                 }
             }
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        setFragmentResult(TestType.STRUP.label, bundleOf(TEST_FINISHED to viewModel.isFinished.value))
+    override fun onDestroyView() {
+        super.onDestroyView()
+        tts?.stop(); tts?.shutdown()
     }
 }
