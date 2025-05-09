@@ -4,6 +4,7 @@ import com.example.diplomapplication.data.TestType
 
 data class MainScreenState(
     val currentDate: String,
+    val username: String,
     val testsToTake: List<TestItem>,
     val testsPassed: List<TestItem>,
     val status: LoadingStatus,

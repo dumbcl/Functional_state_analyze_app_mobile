@@ -55,7 +55,10 @@ class HeartRateAnalyzer(
         val elapsedSec = (now - startTimeMs) / 1_000f
         if (elapsedSec >= measureSec) {
             val bpm = (peakCount / elapsedSec * 60).toInt()
-            onBpmReady((bpm.toFloat() * 1.5f).roundToInt())
+            when {
+                bpm < 56 -> onBpmReady((bpm.toFloat() * 1.5f).roundToInt())
+                else -> onBpmReady(bpm)
+            }
             peakCount = 0
             lastCrossUp = false
             rawValues.clear()

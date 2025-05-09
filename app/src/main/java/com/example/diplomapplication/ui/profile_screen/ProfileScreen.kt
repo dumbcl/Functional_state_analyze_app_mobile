@@ -2,7 +2,6 @@ package com.example.diplomapplication.ui.profile_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,6 +16,8 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -30,12 +31,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.diplomapplication.R
+import com.example.diplomapplication.data.EstimateType
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun ProfileScreen(
     uiState: ProfileScreenState,
     openMainScreen: () -> Unit,
-    onDayClick: () -> Unit,
+    onDayClick: (Int) -> Unit,
+    refresh: () -> Unit,
 ) {
     Scaffold(
         bottomBar = {
@@ -65,19 +70,54 @@ fun ProfileScreen(
             ) {
                 item {
                     Text(
-                        text = "Отчеты по тестированию",
+                        text = stringResource(R.string.profile_results_title),
                         style = MaterialTheme.typography.titleLarge,
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
                 }
 
-                itemsIndexed(uiState.dayEstimates) { _, dayEstimate ->
-                    DayEstimateRow(
-                        date = dayEstimate.date,
-                        type = dayEstimate.type,
-                        onClick = onDayClick,
-                    )
-                    Spacer(modifier = Modifier.height(12.dp))
+                when (uiState.status) {
+                    ProfileScreenState.LoadingStatus.LOADING -> item {
+                        Column(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+                        }
+                    }
+                    ProfileScreenState.LoadingStatus.ERROR -> item {
+                        Column(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Button(
+                                onClick = refresh,
+                                modifier = Modifier.align(Alignment.CenterHorizontally)
+                            ) {
+                                Text(text = stringResource(R.string.refresh))
+                            }
+                        }
+                    }
+                    ProfileScreenState.LoadingStatus.SUCCESS -> {
+                        if (uiState.dayEstimates.isEmpty()) {
+                            item {
+                                Column(
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text(
+                                        text = stringResource(R.string.no_tests),
+                                        style = MaterialTheme.typography.bodyLarge,
+                                    )
+                                }
+                            }
+                        }
+                        itemsIndexed(uiState.dayEstimates) { index, dayEstimate ->
+                            DayEstimateRow(
+                                date = dayEstimate.date,
+                                type = dayEstimate.type,
+                                onClick = { onDayClick.invoke(index) },
+                            )
+                            Spacer(modifier = Modifier.height(12.dp))
+                        }
+                    }
                 }
             }
         }
@@ -92,15 +132,17 @@ private fun DayEstimateRow(
     modifier: Modifier = Modifier,
 ) {
     val stateText = when (type) {
-        EstimateType.GOOD -> "Хорошее"
-        EstimateType.MEDIUM -> "Удовлетворительное"
-        EstimateType.BAD -> "Плохое"
+        EstimateType.GOOD -> stringResource(R.string.good_state)
+        EstimateType.MEDIUM -> stringResource(R.string.medium_state)
+        EstimateType.BAD -> stringResource(R.string.bad_state)
+        EstimateType.UNKNOWN -> stringResource(R.string.good_state)
     }
 
     val backgroundColor = when (type) {
         EstimateType.GOOD -> MaterialTheme.colorScheme.primaryContainer
         EstimateType.MEDIUM -> MaterialTheme.colorScheme.secondaryContainer
         EstimateType.BAD -> MaterialTheme.colorScheme.tertiaryContainer
+        EstimateType.UNKNOWN -> MaterialTheme.colorScheme.primaryContainer
     }
 
     Row(
@@ -117,12 +159,15 @@ private fun DayEstimateRow(
         Column(
             modifier = Modifier.weight(1f),
         ) {
+            val dateDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE)
+            val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+            val formattedDate = dateDate.format(formatter)
             Text(
-                text = date,
+                text = formattedDate,
                 style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
             )
             Text(
-                text = "Оценка состояния: $stateText",
+                text = stringResource(R.string.state_evaluation, stateText),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

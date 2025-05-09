@@ -13,6 +13,7 @@ import kotlin.math.roundToInt
 class EscalScreenViewModel(private val testsRepository: TestsRepository): ViewModel() {
 
     lateinit var navController : NavController
+    lateinit var showSnack: () -> Unit
 
     val isFinished = MutableStateFlow(false)
 
@@ -61,14 +62,10 @@ class EscalScreenViewModel(private val testsRepository: TestsRepository): ViewMo
         if (code != null) {
             val rawResults = extractResTValues(code)
             val results: List<Int> = rawResults.mapNotNull { it.split("=")[1].toFloatOrNull()?.roundToInt() }
-            sendCode(results)
-            finishTest()
-        }
-    }
-
-    private fun sendCode(results: List<Int>) {
-        viewModelScope.launch {
-            testsRepository.sendEscalResults(results)
+            viewModelScope.launch {
+                val res = testsRepository.sendEscalResults(results)
+                if (res.isSuccess) finishTest() else showSnack.invoke()
+            }
         }
     }
 

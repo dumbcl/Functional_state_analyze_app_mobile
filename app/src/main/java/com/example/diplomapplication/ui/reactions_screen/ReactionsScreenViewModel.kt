@@ -23,10 +23,12 @@ class ReactionsScreenViewModel(
 
     lateinit var navController: NavController
     lateinit var str: (Int) -> String
+    lateinit var showSnack: () -> Unit
     var tts: TextToSpeech? = null
 
     private val _uiState = MutableStateFlow(ReactionsScreenState())
     val uiState = _uiState.asStateFlow()
+    val isFinished = MutableStateFlow(false)
 
     private val visualPairs = mutableListOf<Pair<Long, Long>>()
     private val audioPairs  = mutableListOf<Pair<Long, Long>>()
@@ -71,14 +73,17 @@ class ReactionsScreenViewModel(
 
     fun onFinishClicked() {
         viewModelScope.launch {
-            repo.sendReactionsTestResults(
+            val res = repo.sendReactionsTestResults(
                 ReactionsTestResults(
                     visual = visualPairs,
                     audio = audioPairs
                 )
             )
+            if (res.isSuccess) {
+                close()
+                isFinished.update { true }
+            } else showSnack.invoke()
         }
-        close()
     }
 
     fun close() {

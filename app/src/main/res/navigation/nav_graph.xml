@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/enterFragment">
 
     <fragment
         android:id="@+id/mainFragment"
@@ -123,6 +123,10 @@
             android:id="@+id/action_shtangeFragment_to_ppgFragment"
             app:destination="@id/ppgFragment"
             />
+        <action
+            android:id="@+id/action_shtangeFragment_to_ecgFragment"
+            app:destination="@id/ecgFragment"
+            />
     </fragment>
 
     <fragment
@@ -151,6 +155,12 @@
         android:id="@+id/dayEstimateDialogFragment"
         android:name="com.example.diplomapplication.ui.profile_screen.DayEstimateDialogFragment"
         android:label="DayEstimateDialogFragment">
+    </fragment>
+
+    <fragment
+        android:id="@+id/ecgFragment"
+        android:name="com.example.diplomapplication.ui.ecg_screen.EcgFragment"
+        android:label="ECGFragment">
     </fragment>
 
 </navigation>

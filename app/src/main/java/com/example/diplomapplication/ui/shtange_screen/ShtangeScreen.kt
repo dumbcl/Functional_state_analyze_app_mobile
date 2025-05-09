@@ -38,6 +38,7 @@ fun ShtangeScreen(
     stopExperiment: (String) -> Unit,
     changeToPreExperiment: (String) -> Unit,
     openPPG: () -> Unit,
+    openECG: () -> Unit,
     onHeartRateChange: (String) -> Unit,
 ) {
     Scaffold(
@@ -150,6 +151,13 @@ private fun ColumnScope.shtangeBlocks(
     ) {
         Text(stringResource(R.string.rate_heart_by_ppg))
     }
+//    Button(
+//        onClick = openPPG,
+//        colors = ButtonDefaults.filledTonalButtonColors(),
+//        modifier = Modifier.padding(bottom = 16.dp)
+//    ) {
+//        Text(stringResource(R.string.rate_heart_by_ppg))
+//    }
 
     Button(
         onClick = mainButtonAction,

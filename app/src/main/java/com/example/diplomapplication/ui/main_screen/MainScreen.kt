@@ -4,7 +4,9 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,14 +33,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.solver.widgets.Helper
 import com.example.diplomapplication.R
+import com.example.diplomapplication.data.TestType
 
 @Composable
 fun MainScreen(
     uiState: MainScreenState,
     openProfile: () -> Unit,
-    openEscal: () -> Unit,
+    openTest: (TestType) -> Unit,
+    openForTest: () -> Unit,
     refresh: () -> Unit,
     closeHealthAlert: () -> Unit,
+    onPersonalReportSaveClick: (Int, Int) -> Unit
 ) {
     Scaffold(
         bottomBar = {
@@ -68,7 +73,7 @@ fun MainScreen(
             ) {
                 item {
                     Text(
-                        text = stringResource(R.string.greeting),
+                        text = stringResource(R.string.greeting, uiState.username),
                         style = MaterialTheme.typography.titleLarge,
                         modifier = Modifier.padding(bottom = 12.dp)
                     )
@@ -82,58 +87,81 @@ fun MainScreen(
                 }
                 when (uiState.status) {
                     MainScreenState.LoadingStatus.LOADING -> item {
-                        CircularProgressIndicator()
+                        Column(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+                        }
                     }
 
                     MainScreenState.LoadingStatus.ERROR -> item {
-                        Button(onClick = refresh) { Text(text = stringResource(R.string.refresh)) }
+                        Column(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Button(
+                                onClick = refresh,
+                                modifier = Modifier.align(Alignment.CenterHorizontally)
+                            ) {
+                                Text(text = stringResource(R.string.refresh))
+                            }
+                        }
                     }
                     MainScreenState.LoadingStatus.SUCCESS -> {
-                        item {
-                            PersonalReportSnippet(
-                                onSave = {_,_  -> Unit},
-                            )
+                        if (uiState.testsToTake.find { it.type == TestType.PERSONAL_REPORT } != null) {
+                            item {
+                                PersonalReportSnippet(
+                                    onSave = onPersonalReportSaveClick,
+                                )
+                            }
                         }
                         item {
                             Spacer(modifier = Modifier.height(16.dp))
                         }
-                        item {
-                            Text(
-                                text = stringResource(R.string.test_to_pass_today),
-                                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                                modifier = Modifier.padding(bottom = 16.dp)
-                            )
+                        if (uiState.testsToTake.isNotEmpty()) {
+                            item {
+                                Text(
+                                    text = stringResource(R.string.test_to_pass_today),
+                                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                                    modifier = Modifier.padding(bottom = 16.dp)
+                                )
+                            }
                         }
                         itemsIndexed(uiState.testsToTake) { _, item ->
-                            TestSnippet(item)
-                            Spacer(modifier = Modifier.height(16.dp))
+                            if (item.type != TestType.PERSONAL_REPORT) {
+                                TestSnippet(item, openTest)
+                                Spacer(modifier = Modifier.height(16.dp))
+                            }
                         }
                         item {
                             Spacer(modifier = Modifier.height(16.dp))
                         }
-                        item {
-                            Text(
-                                text = stringResource(R.string.test_passed),
-                                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                                modifier = Modifier.padding(bottom = 16.dp)
-                            )
+                        if (uiState.testsPassed.isNotEmpty()) {
+                            item {
+                                Text(
+                                    text = stringResource(R.string.test_passed),
+                                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                                    modifier = Modifier.padding(bottom = 16.dp)
+                                )
+                            }
                         }
                         itemsIndexed(uiState.testsPassed) { _, item ->
-                            TestSnippet(item)
-                            Spacer(modifier = Modifier.height(16.dp))
+                            if (item.type != TestType.PERSONAL_REPORT) {
+                                TestSnippet(item, openTest)
+                                Spacer(modifier = Modifier.height(16.dp))
+                            }
                         }
                         item {
                             Spacer(modifier = Modifier.height(16.dp))
                         }
                     }
                 }
-                item {
-                    Button(
-                        onClick = openEscal,
-                    ) {
-                        Text(text = stringResource(R.string.open_testing))
-                    }
-                }
+//                item {
+//                    Button(
+//                        onClick = openForTest,
+//                    ) {
+//                        Text(text = stringResource(R.string.open_testing))
+//                    }
+//                }
             }
 
             if (uiState.showDownloadHealthDialog) {

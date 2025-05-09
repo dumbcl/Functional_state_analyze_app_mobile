@@ -25,12 +25,14 @@ import com.example.diplomapplication.R
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
+import kotlin.math.log
 
 class MainScreenViewModel(
     private val testsRepository: TestsRepository
-): ViewModel()  {
+): ViewModel() {
 
     lateinit var navController : NavController
+    lateinit var showSnack: () -> Unit
 
     var healthConnectClient : HealthConnectClient? = null
 
@@ -42,12 +44,21 @@ class MainScreenViewModel(
             status = MainScreenState.LoadingStatus.LOADING,
             showDownloadHealthDialog = false,
             showPersonalReport = false,
+            username = ""
         )
     )
 
     val uiState = _uiState.asStateFlow()
 
     val isPermissionsForHealthGranted = MutableStateFlow(false)
+
+    fun setUserName(login: String) {
+        _uiState.update {
+            uiState.value.copy(
+                username = login
+            )
+        }
+    }
 
     fun init() = viewModelScope.launch {
         val tests = async {
@@ -101,11 +112,23 @@ class MainScreenViewModel(
         navController.navigate(MainFragmentDirections.actionMainFragmentToProfileFragment())
     }
 
+    fun openTest(testType: TestType) = when (testType) {
+        TestType.TEXT_AUDITION -> navigateToTextAudition()
+        TestType.ESCAL -> navigateToEscalTesting()
+        TestType.ESCAL_DAILY -> navigateToEscalDailyTesting()
+        TestType.GENCH -> navigateToGench()
+        TestType.REACTIONS -> navigateToReactions()
+        TestType.RUFIE -> navigateToRufie()
+        TestType.SHTANGE -> navigateToShtange()
+        TestType.STRUP -> navigateToStrupTesting()
+        TestType.PERSONAL_REPORT -> {}
+    }
+
     fun navigateToPPG() {
         navController.navigate(MainFragmentDirections.actionMainFragmentToPpgFragment())
     }
 
-    fun navigateToEscalTesting() {
+    private fun navigateToEscalTesting() {
         navController.navigate(MainFragmentDirections.actionMainFragmentToEscalFragment())
     }
 
@@ -113,23 +136,23 @@ class MainScreenViewModel(
         navController.navigate(MainFragmentDirections.actionMainFragmentToEscalDailyFragment())
     }
 
-    fun navigateToGench() {
+    private fun navigateToGench() {
         navController.navigate(MainFragmentDirections.actionMainFragmentToGenchFragment())
     }
 
-    fun navigateToReactions() {
+    private fun navigateToReactions() {
         navController.navigate(MainFragmentDirections.actionMainFragmentToReactionsFragment())
     }
 
-    fun navigateToRufie() {
+    private fun navigateToRufie() {
         navController.navigate(MainFragmentDirections.actionMainFragmentToRufieFragment())
     }
 
-    fun navigateToShtange() {
+    private fun navigateToShtange() {
         navController.navigate(MainFragmentDirections.actionMainFragmentToShtangeFragment())
     }
 
-    fun navigateToStrupTesting() {
+    private fun navigateToStrupTesting() {
         navController.navigate(MainFragmentDirections.actionMainFragmentToStrupFragment())
     }
 
@@ -153,6 +176,23 @@ class MainScreenViewModel(
         }
     }
 
+    fun savePersonalReport(performanceMeasure: Int, daysComparisonEnumIndex: Int)  {
+        viewModelScope.launch {
+            try {
+                val res = testsRepository.sendPersonalReport(performanceMeasure, daysComparisonEnumIndex)
+                if (res.isSuccess) {
+                    _uiState.update {
+                        uiState.value.copy(
+                            testsToTake = uiState.value.testsToTake.filter { it.type != TestType.PERSONAL_REPORT },
+                        )
+                    }
+                } else showSnack.invoke()
+            } catch (e: Exception) {
+                showSnack.invoke()
+            }
+        }
+    }
+
     fun updateHeartRateOnServer() = viewModelScope.launch {
         try {
             val currentTime = LocalDateTime.now()
@@ -169,25 +209,8 @@ class MainScreenViewModel(
             }.await()
             val records = heartRateResponse?.records?.flatMap { it.samples }.orEmpty()
             testsRepository.postHearRateRecords(records)
-        } catch (e: Exception) { }
-    }
-
-    suspend fun aggregateSteps(
-        healthConnectClient: HealthConnectClient,
-        startTime: Instant,
-        endTime: Instant
-    ) {
-        try {
-            val response = healthConnectClient.aggregate(
-                AggregateRequest(
-                    metrics = setOf(StepsRecord.COUNT_TOTAL),
-                    timeRangeFilter = TimeRangeFilter.between(startTime, endTime)
-                )
-            )
-            // The result may be null if no data is available in the time range
-            val stepCount = response[StepsRecord.COUNT_TOTAL]
         } catch (e: Exception) {
-            // Run error handling here
+            showSnack.invoke()
         }
     }
 
@@ -213,9 +236,10 @@ class MainScreenViewModel(
         TestType.GENCH -> R.string.test_gench_title
         TestType.REACTIONS -> R.string.test_reactions_title
         TestType.RUFIE -> R.string.test_rufie_title
-        TestType.SHNTANGE -> R.string.test_shtange_title
+        TestType.SHTANGE -> R.string.test_shtange_title
         TestType.STRUP -> R.string.test_strup_title
         TestType.TEXT_AUDITION -> R.string.test_text_audition_title
+        TestType.PERSONAL_REPORT -> 0
     }
 
     private fun TestType.getSubtitle() = when (this) {
@@ -224,8 +248,9 @@ class MainScreenViewModel(
         TestType.GENCH -> R.string.test_gench_subtitle
         TestType.REACTIONS -> R.string.test_reactions_subtitle
         TestType.RUFIE -> R.string.test_rufie_subtitle
-        TestType.SHNTANGE -> R.string.test_shtange_subtitle
+        TestType.SHTANGE -> R.string.test_shtange_subtitle
         TestType.STRUP -> R.string.test_strup_subtitle
         TestType.TEXT_AUDITION -> R.string.test_text_audition_subtitle
+        TestType.PERSONAL_REPORT -> 0
     }
 }

@@ -1,6 +1,6 @@
 package com.example.diplomapplication.util
 
-const val API_ENDPOINT = "http://158.160.180.167:8000/"
+const val API_ENDPOINT = "http://158.160.156.93:8000/"
 const val HEADER_AUTH = "Authorization"
 const val CONNECT_TIMEOUT = 120L
 const val READ_TIMEOUT = 120L

@@ -10,9 +10,11 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
+import com.example.diplomapplication.R
 import com.example.diplomapplication.ui.theme.DiplomApplicationTheme
 import com.example.diplomapplication.util.TEST_FINISHED
 import com.example.diplomapplication.data.TestType
+import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.getValue
 
@@ -27,6 +29,11 @@ class EscalFragment : Fragment()  {
 
         val navController = findNavController()
         viewModel.navController = navController
+        viewModel.showSnack = {
+            Snackbar
+                .make(requireView(), getString(R.string.something_went_wrong), Snackbar.LENGTH_LONG)
+                .show()
+        }
 
         return ComposeView(requireContext()).apply {
             setContent {

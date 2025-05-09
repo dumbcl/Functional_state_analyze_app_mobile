@@ -22,6 +22,7 @@ class ShtangeScreenViewModel(
 ): ViewModel()  {
 
     lateinit var navController : NavController
+    lateinit var showSnack: () -> Unit
 
     var tts: TextToSpeech? = null
 
@@ -117,16 +118,18 @@ class ShtangeScreenViewModel(
     fun finishTest() {
         postExpHeartRate = uiState.value.heartRateText?.toInt()
         viewModelScope.launch {
-            testsRepository.sendShtangeTestResults(
+            val result = testsRepository.sendShtangeTestResults(
                 ShtangeTestResults(
                     heartRateBefore = preExpHeartRate,
                     secondsNumber = ((finishTime - startTime) / 1000).toInt(),
                     heartRateAfter = postExpHeartRate,
                 )
             )
+            if (result.isSuccess) {
+                isFinished.update { true }
+                close()
+            } else showSnack.invoke()
         }
-        isFinished.update { true }
-        close()
     }
 
     fun close() {
@@ -135,5 +138,9 @@ class ShtangeScreenViewModel(
 
     fun openPPG() {
         navController.navigate(ShtangeFragmentDirections.actionShtangeFragmentToPpgFragment())
+    }
+
+    fun openECG() {
+        navController.navigate(ShtangeFragmentDirections.actionShtangeFragmentToEcgFragment())
     }
 }

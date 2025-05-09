@@ -24,6 +24,8 @@ class RufieScreenViewModel(
     lateinit var navController: NavController
     var tts: TextToSpeech? = null
     lateinit var str: (Int) -> String
+    lateinit var showSnack: () -> Unit
+    val isFinished = MutableStateFlow(false)
 
     private val _uiState = MutableStateFlow(RufieScreenState())
     val uiState = _uiState.asStateFlow()
@@ -73,7 +75,7 @@ class RufieScreenViewModel(
 
     private fun startRestPhase() {
         say(R.string.rufie_explanation_rest)
-        startTimer(RufieScreenState.ScreenState.REST, 1.minutes)
+        startTimer(RufieScreenState.ScreenState.REST, 5.minutes)
     }
 
     private fun onRestFinished() {
@@ -119,15 +121,18 @@ class RufieScreenViewModel(
     private fun finishTest() {
         p3 = _uiState.value.heartRateText?.toIntOrNull()
         viewModelScope.launch {
-            testsRepository.sendRufieTestResults(
+            val res = testsRepository.sendRufieTestResults(
                 RufieTestResults(
                     heartRateRest = p1,
                     heartRateAfterExercise = p2,
                     heartRateAfterRest = p3,
                 )
             )
+            if (res.isSuccess) {
+                close()
+                isFinished.update { true }
+            } else showSnack.invoke()
         }
-        close()
     }
 
     private fun onTimerFinished() = when (_uiState.value.screenState) {

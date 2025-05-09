@@ -2,6 +2,7 @@ package com.example.diplomapplication.ui.profile_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,17 +15,25 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.diplomapplication.R
+import com.example.diplomapplication.data.DayEstimate
+import com.example.diplomapplication.data.EstimateType
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun DayEstimateDialogScreen(
-    item: DayEstimateItem,
+    item: DayEstimate?,
 ) {
     val backgroundColor = MaterialTheme.colorScheme.surfaceContainerLowest
 
+    if (item == null) return
     LazyColumn(
         modifier = Modifier
             .nestedScroll(rememberNestedScrollInteropConnection())
@@ -34,69 +43,34 @@ fun DayEstimateDialogScreen(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        // Дата - заголовок
         item {
+            val dateDate = LocalDate.parse(item.date, DateTimeFormatter.ISO_DATE)
+            val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+            val formattedDate = dateDate.format(formatter)
             Text(
-                text = item.date,
+                text = formattedDate,
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
             )
         }
 
-        // Общая оценка состояния
-        val estimateText = when (item.type) {
-            EstimateType.GOOD -> "Общая оценка состояния: Хорошее"
-            EstimateType.MEDIUM -> "Общая оценка состояния: Удовлетворительное"
-            EstimateType.BAD -> "Общая оценка состояния: Плохое"
-        }
-
         item {
+            val stateText = when (item.type) {
+                EstimateType.GOOD -> stringResource(R.string.good_state)
+                EstimateType.MEDIUM -> stringResource(R.string.medium_state)
+                EstimateType.BAD -> stringResource(R.string.bad_state)
+                EstimateType.UNKNOWN -> stringResource(R.string.good_state)
+            }
+            val estimateText = stringResource(R.string.state_evaluation, stateText)
             Text(
                 text = estimateText,
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
             )
         }
 
-        item {
-            Text(
-                text = "Пройденные тесты:",
-                style = MaterialTheme.typography.titleMedium
-            )
-        }
-
-        // Тесты
-        item {
-            TestResultRow("Эскал", item.escalDaily, item.escalDailyAverage)
-        }
-        item {
-            TestResultRow("Проба Генча", item.genchDaily, item.genchDailyAverage)
-        }
-        item {
-            TestResultRow("Задания на сенсомоторную реакцию", item.reactionsDaily, item.reactionsDailyAverage)
-        }
-        item {
-            TestResultRow("Проба Руфье", item.rufieDaily, item.rufieDailyAverage)
-        }
-        item {
-            TestResultRow("Проба Штанге", item.shtangeDaily, item.shtangeDailyAverage)
-        }
-        item {
-            TestResultRow("Индекс Богомазова", item.bogomazovDaily, item.bogomazovDailyAverage)
-        }
-        item {
-            TestResultRow("Тест Струпа", item.strupDaily, item.strupDailyAverage)
-        }
-        item {
-            TestResultRow("Задания на прочтение и повторение текста", item.textAuditionDaily, item.textAuditionDailyAverage)
-        }
-        item {
-            TestResultRow("Пользовательская оценка", item.textAuditionDaily, item.textAuditionDailyAverage)
-        }
-
-        // Пульс
         if (
-            !item.pulseAverageDaily.isNullOrEmpty() ||
-            !item.pulseMaxDaily.isNullOrEmpty() ||
-            !item.pulseMinDaily.isNullOrEmpty()
+            item.pulseMeasurement?.pulseAverage != null ||
+            item.pulseMeasurement?.pulseMax != null ||
+            item.pulseMeasurement?.pulseMin != null
         ) {
             item {
                 Row(
@@ -104,20 +78,130 @@ fun DayEstimateDialogScreen(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text("Пульс", style = MaterialTheme.typography.bodyLarge)
+                    Text(stringResource(R.string.pulse), style = MaterialTheme.typography.bodyLarge)
                     Column(horizontalAlignment = Alignment.End) {
-                        item.pulseAverageDaily?.let {
-                            Text("Среднее значение за день: $it", style = MaterialTheme.typography.bodyMedium)
+                        item.pulseMeasurement.pulseAverage.let {
+                            Text(stringResource(R.string.pulse_average, String.format("%.2f", it)), style = MaterialTheme.typography.bodyMedium)
                         }
-                        item.pulseMaxDaily?.let {
-                            Text("Максимальное значение за день: $it", style = MaterialTheme.typography.bodyMedium)
+                        item.pulseMeasurement.pulseMax.let {
+                            Text(stringResource(R.string.pulse_max, it), style = MaterialTheme.typography.bodyMedium)
                         }
-                        item.pulseMinDaily?.let {
-                            Text("Минимальное значение за день: $it", style = MaterialTheme.typography.bodyMedium)
+                        item.pulseMeasurement.pulseMin.let {
+                            Text(stringResource(R.string.pulse_min, it), style = MaterialTheme.typography.bodyMedium)
                         }
                     }
                 }
             }
+        }
+
+        item {
+            Text(
+                text = stringResource(R.string.passed_tests_for_a_day),
+                style = MaterialTheme.typography.titleMedium
+            )
+        }
+
+        // Тесты
+        if (item.personalReport?.performanceMeasure != null) {
+            item {
+                TestResultRow(
+                    testName = stringResource(R.string.personal_report_result),
+                    result = item.personalReport.performanceMeasure.toString(),
+                    average = String.format("%.2f", item.personalReport.performanceMeasureAverage),
+                    type = item.personalReport.type,
+                )
+            }
+        }
+        if (item.shtangeResult?.shtangeResultIndicator != null) {
+            item {
+                TestResultRow(
+                    testName = stringResource(R.string.shtange_result),
+                    result = String.format("%.2f",item.shtangeResult.shtangeResultIndicator),
+                    average = String.format("%.2f",item.shtangeResult.shtangeResultIndicatorAverage),
+                    type = item.shtangeResult.type,
+                )
+            }
+        }
+        if (item.genchTestResult?.genchResultIndicator != null) {
+            item {
+                TestResultRow(
+                    testName = stringResource(R.string.gench_result),
+                    result = String.format("%.2f",item.genchTestResult.genchResultIndicator),
+                    average = String.format("%.2f",item.genchTestResult.genchResultIndicatorAverage),
+                    type = item.genchTestResult.type,
+                )
+            }
+        }
+        if (item.rufieTestResult?.rufieResultIndicator != null) {
+            item {
+                TestResultRow(
+                    testName = stringResource(R.string.rufie_result),
+                    result = String.format("%.2f",item.rufieTestResult.rufieResultIndicator),
+                    average = String.format("%.2f",item.rufieTestResult.rufieResultIndicatorAverage),
+                    type = item.rufieTestResult.type,
+                )
+            }
+        }
+        if (item.strupTestResult?.strupResult != null) {
+            item {
+                TestResultRow(
+                    testName = stringResource(R.string.strup_result),
+                    result = item.strupTestResult.strupResult.toString(),
+                    average = String.format("%.2f",item.strupTestResult.strupResultAverage),
+                    type = item.strupTestResult.type,
+                )
+            }
+        }
+        if (item.reactionsResult?.reactionsAudioErrors != null) {
+            item {
+                TestResultRow(
+                    testName = stringResource(R.string.audio_reaction_result),
+                    result = item.reactionsResult.reactionsAudioErrors.toString(),
+                    average = String.format("%.2f",item.reactionsResult.reactionsAudioErrorsAverage),
+                    type = item.reactionsResult.reactionsAudioErrorsType,
+                )
+            }
+        }
+        if (item.reactionsResult?.reactionsVisualErrors != null) {
+            item {
+                TestResultRow(
+                    testName = stringResource(R.string.video_reaction_result),
+                    result = item.reactionsResult.reactionsVisualErrors.toString(),
+                    average = String.format("%.2f",item.reactionsResult.reactionsVisualErrorsAverage),
+                    type = item.reactionsResult.reactionsVisualErrorsType,
+                )
+            }
+        }
+        if (item.textAuditionResult?.pausesCountRead != null) {
+            item {
+                TestResultRow(
+                    testName = stringResource(R.string.read_text_pauses_result),
+                    result = item.textAuditionResult.pausesCountRead.toString(),
+                    average = String.format("%.2f",item.textAuditionResult.pausesCountReadAverage),
+                    type = item.textAuditionResult.pausesCountReadType,
+                )
+            }
+        }
+        if (item.textAuditionResult?.pausesCountRepeat != null) {
+            item {
+                TestResultRow(
+                    testName = stringResource(R.string.repeat_text_pauses_result),
+                    result = item.textAuditionResult.pausesCountRepeat.toString(),
+                    average = String.format("%.2f",item.textAuditionResult.pausesCountRepeatAverage),
+                    type = item.textAuditionResult.pausesCountRepeatType,
+                )
+            }
+        }
+
+        item {
+            Text(
+                text = stringResource(R.string.day_description),
+                style = MaterialTheme.typography.titleMedium
+            )
+            Text(
+                text = item.dayDescription,
+                style = MaterialTheme.typography.bodyLarge
+            )
         }
     }
 }
@@ -126,25 +210,34 @@ fun DayEstimateDialogScreen(
 fun TestResultRow(
     testName: String,
     result: String?,
-    average: String?
+    average: String?,
+    type: EstimateType,
 ) {
     if (result.isNullOrEmpty() && average.isNullOrEmpty()) return
-
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
+    val backgroundColor = when (type) {
+        EstimateType.GOOD -> Color(0xFFC8E6C9)
+        EstimateType.MEDIUM -> MaterialTheme.colorScheme.secondaryContainer
+        EstimateType.BAD -> MaterialTheme.colorScheme.tertiaryContainer
+        EstimateType.UNKNOWN -> MaterialTheme.colorScheme.primaryContainer
+    }
+    Column(
+        modifier = Modifier.fillMaxWidth().wrapContentHeight().background(color = backgroundColor),
     ) {
         Text(
             text = testName,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(bottom = 4.dp)
         )
-        Column(horizontalAlignment = Alignment.End) {
+        Column {
             result?.let {
-                Text("Результат: $it", style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    stringResource(R.string.test_result, it),
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
             }
             average?.let {
-                Text("Средний результат: $it", style = MaterialTheme.typography.bodyMedium)
+                Text(stringResource(R.string.test_result_average, it), style = MaterialTheme.typography.bodyMedium)
             }
         }
     }

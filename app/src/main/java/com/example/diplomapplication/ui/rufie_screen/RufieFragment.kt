@@ -7,13 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.ComposeView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import com.example.diplomapplication.R
+import com.example.diplomapplication.data.TestType
 import com.example.diplomapplication.ui.theme.DiplomApplicationTheme
 import com.example.diplomapplication.util.HEART_RATE_BUNDLE
 import com.example.diplomapplication.util.PPG_FRAGMENT_REQUEST_KEY
+import com.example.diplomapplication.util.TEST_FINISHED
+import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Locale
 
@@ -26,6 +31,11 @@ class RufieFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         viewModel.navController = findNavController()
+        viewModel.showSnack = {
+            Snackbar
+                .make(requireView(), getString(R.string.something_went_wrong), Snackbar.LENGTH_LONG)
+                .show()
+        }
         viewModel.str = { getText(it).toString() }
 
         var wasAnnounced = false
@@ -62,6 +72,7 @@ class RufieFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         tts?.stop(); tts?.shutdown()
+        setFragmentResult(TestType.RUFIE.label, bundleOf(TEST_FINISHED to viewModel.isFinished.value))
     }
 }
 

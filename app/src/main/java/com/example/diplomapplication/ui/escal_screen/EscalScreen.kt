@@ -43,7 +43,7 @@ fun EscalScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = stringResource(R.string.testing),
+                        text = stringResource(R.string.escal_testing),
                     )
                 },
                 navigationIcon = {
@@ -72,9 +72,6 @@ fun EscalScreen(
                     WebView(context).apply {
                         settings.javaScriptEnabled = true
                         webViewClient = object : WebViewClient() {
-//                            override fun onPageFinished(view: WebView?, url: String?) {
-//                                super.onPageFinished(view, url)
-//                            }
                         }
                         loadUrl(ESCAL_TEST_1ST_WALKTHROUGH_LINK)
                         webView = this
@@ -103,7 +100,7 @@ private fun StartAlert(
 ) {
     AlertDialog(
         onDismissRequest = closeAlert,
-        title =  { Text(text = stringResource(R.string.testing_start)) },
+        text =  { Text(text = stringResource(R.string.escal_testing_start)) },
         confirmButton = {
             Button(
                 onClick = closeAlert,

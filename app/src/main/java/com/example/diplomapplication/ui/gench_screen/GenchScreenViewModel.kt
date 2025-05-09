@@ -18,6 +18,7 @@ class GenchScreenViewModel(
 ): ViewModel()  {
 
     lateinit var navController : NavController
+    lateinit var showSnack: () -> Unit
 
     var tts: TextToSpeech? = null
 
@@ -113,16 +114,18 @@ class GenchScreenViewModel(
     fun finishTest() {
         postExpHeartRate = uiState.value.heartRateText?.toInt()
         viewModelScope.launch {
-            testsRepository.sendGenchTestResults(
+            val res = testsRepository.sendGenchTestResults(
                 GenchTestResults(
                     heartRateBefore = preExpHeartRate,
                     secondsNumber = ((finishTime - startTime) / 1000).toInt(),
                     heartRateAfter = postExpHeartRate,
                 )
             )
+            if (res.isSuccess) {
+                isFinished.update { true }
+                close()
+            } else showSnack.invoke()
         }
-        isFinished.update { true }
-        close()
     }
 
     fun close() {

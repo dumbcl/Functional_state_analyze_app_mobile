@@ -18,28 +18,33 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.diplomapplication.R
+import com.example.diplomapplication.data.TestType
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun TestSnippet(
     test: TestItem,
+    openTest: (TestType) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val backgroundColor: Color
     val statusText: String
 
     if (test.isPassed) {
+        val date = LocalDate.parse(test.date.orEmpty(), DateTimeFormatter.ISO_DATE)
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+        val formattedDate = date.format(formatter)
+
         backgroundColor = MaterialTheme.colorScheme.surfaceContainerHighest
-        statusText = stringResource(R.string.last_attempt_day, test.date.orEmpty())
+        statusText = stringResource(R.string.last_attempt_day, formattedDate)
     } else {
         backgroundColor = MaterialTheme.colorScheme.primaryContainer
-        statusText =
-            if (test.date == null) stringResource(R.string.need_to_pass_test) else stringResource(
-                R.string.last_attempt_day,
-                test.date
-            )
+        statusText = stringResource(R.string.need_to_pass_test)
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .background(
                 color = backgroundColor,
@@ -64,7 +69,7 @@ fun TestSnippet(
             modifier = Modifier.align(Alignment.End)
         )
         Button(
-            onClick = { /* Realize the action here, e.g., start a test */ },
+            onClick = {openTest(test.type)},
             modifier = Modifier.align(Alignment.End)
         ) {
             Text(if (test.isPassed) stringResource(R.string.pass_again) else stringResource(R.string.start_pass))

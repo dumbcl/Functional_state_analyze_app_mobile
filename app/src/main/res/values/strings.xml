@@ -1,11 +1,13 @@
 <resources>
-    <string name="app_name">DiplomApplication</string>
+    <string name="app_name">Оценка фокинцуального состояния</string>
     <string name="main">Главная</string>
     <string name="profile">Профиль</string>
-    <string name="greeting">Привет, Константин</string>
-    <string name="testing">Тестирование ЭСКАЛ</string>
+    <string name="greeting">Привет, %s</string>
+    <string name="escal_testing">Тестирование ЭСКАЛ для оценки психотипа</string>
+    <string name="escal_daily_testing">Тестирование ЭСКАЛ для оценки состояния</string>
     <string name="open_testing">Открыть тестирование ЭСКАЛ</string>
-    <string name="testing_start">Сейчас вы пройдете тест ЭСКАЛ, пожалуйста, не закрывайте экран до окончания теста</string>
+    <string name="escal_testing_start">Сейчас вы пройдете тест ЭСКАЛ, пожалуйста, не закрывайте экран до окончания теста</string>
+    <string name="escal_daily_testing_start">Сейчас вы пройдете тест ЭСКАЛ, пожалуйста, не закрывайте экран до окончания теста</string>
     <string name="testing_start_ready">Я готов</string>
     <string name="testing_finish">Вы уверены, что хотите выйти? Если вы не завершили тестирование, то оно не сохранится</string>
     <string name="testing_finish_yes">Да, хочу выйти</string>
@@ -36,7 +38,7 @@
     <string name="last_attempt_day">Дата последнего прохождения: %s</string>
     <string name="need_to_pass_test">Требуется пройти</string>
 
-    <string name="health_alert_explanation">Для корректной работы приложения требуется установить HeathConnect, иначе данные будут ограничены</string>
+    <string name="health_alert_explanation">Для корректной работы приложения требуется установить HeathConnect, иначе доступные результаты будут ограничены</string>
     <string name="install_health_connect">Установить HeathConnect</string>
 
     <string name="ppg_start">Начать измерение</string>
@@ -50,18 +52,19 @@
     <string name="shtange_explanation_pre_exp">Для этого теста вам требуется узнать частоту своего сердцебиения, для этого вы можете использовать свое устройство и самостоятельно внести измерение, либо измерить частоту при помощи смартфона (для этого нужно нажать на кнопку ниже). После этого вам потребуется задержать дыхание, как все готово - нажмите на кнопку продолжить.</string>
     <string name="shtange_expalanation_exp">Пожалуйста, задержите дыхание на максимально возможное количество времени, как будете готовы, нажмите на кнопку \"Начать\".</string>
     <string name="shtange_expalanation_exp_start">Задержите дыхание, как станет невмоготу нажмите на кнопку \"Закончить\".</string>
-    <string name="shtange_expalanation_post_exp">Отлично, теперь снова измерьте ЧСС и завершайте тест.</string>
+    <string name="shtange_expalanation_post_exp">Отлично, теперь снова измерьте частоту сердцебиения и завершайте тест.</string>
     <string name="shtange_expalanation_pre_exp">Вы должны сидя глубоко вдохнуть и задержать дыхание.</string>
     <string name="continue_test">Продолжить</string>
     <string name="start">Начать</string>
     <string name="finish">Закончить</string>
     <string name="finish_test">Завершить тест</string>
     <string name="rate_heart_by_ppg">Измерить частоту сердцебиения</string>
+    <string name="rate_heart_by_ecg">Измерить частоту сердцебиения с помощью экг</string>
     <string name="shtange_test">Проба Штанге</string>
 
     <string name="enter">Войти</string>
     <string name="entrance">Вход</string>
-    <string name="register">Зарегистрироваться</string>
+    <string name="register">Регистрация</string>
     <string name="registration">Регистрация</string>
     <string name="password_enter_form">Пароль</string>
     <string name="password_enter_form_hint">Введите пароль</string>
@@ -90,7 +93,7 @@
 
     <string name="rufie_explanation_pre_rest">Сейчас вам предстоит тест с приседаниями, но сначала нужно 5 минут спокойно посидеть. Нажмите «Начать», чтобы запустить таймер.</string>
     <string name="rufie_explanation_rest">Отдыхайте, сохраняйте спокойное дыхание — идёт таймер отдыха.</string>
-    <string name="rufie_explanation_p1_input">Теперь измерьте частоту сердечных сокращений за 15 секунд. Введите её вручную или нажмите «Измерить ЧСС» для съёмки с помощью смартфона.</string>
+    <string name="rufie_explanation_p1_input">Теперь измерьте частоту сердечных сокращений за 15 секунд. Введите её вручную или нажмите «Измерить частоту сердцебиения» для съёмки с помощью смартфона.</string>
     <string name="rufie_explanation_pre_exercise">Сейчас вам предстоит сделать 30 приседаний за 45 секунд. Как будете готовы — нажмите «Начать».</string>
     <string name="rufie_explanation_exercise">Приседайте! Держите ровный темп, осталось совсем немного.</string>
     <string name="rufie_explanation_p2_input">Сразу после приседаний сядьте и снова измерьте пульс (первые 15 секунд отдыха). Введите результат.</string>
@@ -104,5 +107,54 @@
 
     <string name="strup_test">Тест Струпа</string>
     <string name="strup_description">Сейчас будет проводиться тест на когнитивную гибкость (Струп). На экране будут появляться слова, окрашенные в разные цвета. Ваша задача — вслух называть цвет, которым написано слово, игнорируя сам текст. Нажмите «Начать», чтобы запустить таймер на 60 секунд.</string>
+    <string name="strup_say_color_prompt">Назовите цвет, которым написано слово</string>
     <string name="strup_finished">Вы прошли тест! Нажмите «Завершить тест», чтобы отправить результат.</string>
+
+    <string name="txt_audition_test">Текстовый аудиотест</string>
+    <string name="audition_intro">Сейчас вам предстоит пройти тест: сначала прочитайте вслух показанный текст, затем ― прослушайте другой текст, запомните и повторите его. Нажмите «Начать», когда будете готовы.</string>
+    <string name="audition_ready_to_repeat">Теперь повторите текст вслух, когда будете готовы.</string>
+    <string name="start_record">Начать запись</string>
+    <string name="stop_record">Закончить запись</string>
+    <string name="listening_complete">Прослушивание завершено</string>
+    <string name="im_ready_to_repeat">Я готов повторить</string>
+    <string name="im_ready_to_listen">Я готов слушать</string>
+    <string name="record_is_enabled">Запись идет</string>
+    <string name="after_reading">Запись сохранена, можете продолжать</string>
+    <string name="after_repeating">Запись сохранена, можете завершать, предупреждаю, обработка потребует время, пожалуйста подождите</string>
+    <string name="listening_prepare">Сейчас вы прослушаете текст 2 раза, вашей задачей будет повторить его максимально точно</string>
+    <string name="reading_prepare">Сейчас вам нужно будет прочитать текст, он появится после нажатия на кнопку "Начать запись"</string>
+    <string name="listen">Слушайте</string>
+
+    <string name="something_went_wrong">Что-то пошло не так</string>
+
+    <string name="micro_permission_denied">Запретили запись</string>
+
+    <string name="profile_results_title">Отчеты по тестированиям и функциональному состоянию</string>
+    <string name="good_state">Хорошее</string>
+    <string name="bad_state">Плохое</string>
+    <string name="medium_state">Удовлетворительное</string>
+    <string name="state_evaluation">Оценка состояния: %s</string>
+
+    <string name="passed_tests_for_a_day">Пройденные за день тесты:</string>
+    <string name="test_result">Результат: %s</string>
+    <string name="test_result_average">Средний результат: %s</string>
+    <string name="pulse">Пульс</string>
+    <string name="pulse_max">Максимальное значение за день: %s</string>
+    <string name="pulse_min">Минимальное значение за день: %s</string>
+    <string name="pulse_average">Среднее значение за день: %s</string>
+
+    <string name="personal_report_result">Пользовательский показатель продуктивности</string>
+    <string name="shtange_result">Показатель реакции системы кровообращения на недостаток кислорода на основе пробы Штанге</string>
+    <string name="gench_result">Показатель реакции системы кровообращения на недостаток кислорода на основе пробы Генча</string>
+    <string name="rufie_result">Индекс пробы Руфье</string>
+    <string name="strup_result">Результат теста Струпа</string>
+    <string name="audio_reaction_result">Кол-во ошибок реакции на аудио сигналы</string>
+    <string name="video_reaction_result">Кол-во ошибок реакции на визуальные сигналы</string>
+    <string name="read_text_pauses_result">Кол-во пауз при прочтении текста</string>
+    <string name="repeat_text_pauses_result">Кол-во пауз при повторении текста</string>
+    <string name="day_description">Описание оценки функционального состояния за день:</string>
+
+    <string name="no_tests">Вы еще не прошли ни одного теста, либо оценка еще не готова</string>
+
+    <string name="heart_rate_ready">Полученное чсс: %s</string>
 </resources>

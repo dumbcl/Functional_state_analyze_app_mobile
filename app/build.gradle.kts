@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.androidx.navigation.safeargs.kotlin)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -92,4 +93,6 @@ dependencies {
     implementation (libs.androidx.camera.video)
 
     implementation ("com.google.guava:guava:31.1-android")
+
+    implementation ("com.squareup.retrofit2:converter-scalars:2.9.0")
 }

@@ -8,6 +8,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -26,11 +27,8 @@ fun StrupScreen(
             TopAppBar(
                 title = { Text(stringResource(R.string.strup_test)) },
                 navigationIcon = {
-                    Icon(
-                        Icons.AutoMirrored.Outlined.ArrowBack,
-                        null,
-                        modifier = Modifier.clickable(onClick = back)
-                    )
+                    Icon(Icons.AutoMirrored.Outlined.ArrowBack, null,
+                        Modifier.clickable(onClick = back))
                 }
             )
         }
@@ -45,27 +43,36 @@ fun StrupScreen(
                 Modifier.padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                uiState.text?.let {
-                    Text(it, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(bottom = 24.dp))
+                uiState.description?.let {
+                    Text(it, style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(bottom = 24.dp))
                 }
 
                 uiState.secondsLeft?.let {
+                    Text(it, style = MaterialTheme.typography.headlineLarge,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(bottom = 24.dp))
+                }
+
+                /* слово в цвете */
+                if (uiState.screenState == StrupScreenState.ScreenState.RUNNING) {
                     Text(
-                        it,
-                        style = MaterialTheme.typography.headlineLarge,
+                        text = uiState.word.orEmpty(),
+                        color = uiState.wordColor ?: Color.Unspecified,
+                        style = MaterialTheme.typography.displayMedium,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(bottom = 24.dp)
                     )
                 }
 
                 when (uiState.screenState) {
-                    StrupScreenState.ScreenState.READY -> {
+                    StrupScreenState.ScreenState.READY ->
                         Button(onClick = start) { Text(stringResource(R.string.start)) }
-                    }
-                    StrupScreenState.ScreenState.FINISHED -> {
+
+                    StrupScreenState.ScreenState.FINISHED ->
                         Button(onClick = finish) { Text(stringResource(R.string.finish_test)) }
-                    }
-                    else -> Unit   // RUNNING – кнопок нет
+
+                    else -> Unit
                 }
             }
         }

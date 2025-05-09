@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 class EnterViewModel(val repository: TestsRepository): ViewModel() {
 
     lateinit var navController : NavController
+    lateinit var showSnack: () -> Unit
 
     private val _uiState = MutableStateFlow(
         EnterScreenState(
@@ -102,6 +103,7 @@ class EnterViewModel(val repository: TestsRepository): ViewModel() {
                                 isRegistrationError = false
                             )
                         }
+                        showSnack.invoke()
                     }
                 }
             }
@@ -145,6 +147,7 @@ class EnterViewModel(val repository: TestsRepository): ViewModel() {
                                 isRegistrationError = true
                             )
                         }
+                        showSnack.invoke()
                     }
                 }
             }

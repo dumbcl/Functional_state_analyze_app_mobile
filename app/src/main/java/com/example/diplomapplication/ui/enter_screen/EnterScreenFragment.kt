@@ -1,5 +1,7 @@
 package com.example.diplomapplication.ui.enter_screen
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +15,10 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.diplomapplication.ui.enter_screen.elements.EnterScreen
+import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.getValue
+import com.example.diplomapplication.R
 
 class EnterScreenFragment : Fragment() {
 
@@ -27,6 +31,14 @@ class EnterScreenFragment : Fragment() {
 
         val navController = findNavController()
         viewModel.navController = navController
+
+        viewModel.showSnack = {
+            Snackbar
+                .make(requireView(), getString(R.string.something_went_wrong), Snackbar.LENGTH_LONG)
+                .show()
+        }
+        //val authToken = requireContext().getSharedPreferences("APP_SHARED_PREFERENCES", Context.MODE_PRIVATE).getString("AUTH_TOKEN", "")
+        //if (authToken.isNullOrEmpty().not()) navController.navigate(EnterScreenFragmentDirections.actionEnterFragmentToMainFragment())
 
         return ComposeView(requireContext()).apply {
             setContent {

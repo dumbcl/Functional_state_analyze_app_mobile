@@ -18,6 +18,7 @@ import com.example.diplomapplication.util.TEST_FINISHED
 import com.example.diplomapplication.data.TestType
 import com.example.diplomapplication.util.HEART_RATE_BUNDLE
 import com.example.diplomapplication.util.PPG_FRAGMENT_REQUEST_KEY
+import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Locale
 import kotlin.getValue
@@ -34,6 +35,11 @@ class GenchFragment: Fragment() {
 
         val navController = findNavController()
         viewModel.navController = navController
+        viewModel.showSnack = {
+            Snackbar
+                .make(requireView(), getString(R.string.something_went_wrong), Snackbar.LENGTH_LONG)
+                .show()
+        }
 
         var wasAnnounced = false
         setFragmentResultListener(PPG_FRAGMENT_REQUEST_KEY) { key, bundle ->
@@ -74,7 +80,7 @@ class GenchFragment: Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        setFragmentResult(TestType.SHNTANGE.label, bundleOf(TEST_FINISHED to viewModel.isFinished.value))
+        setFragmentResult(TestType.GENCH.label, bundleOf(TEST_FINISHED to viewModel.isFinished.value))
     }
 
     override fun onDestroyView() {
