@@ -110,7 +110,7 @@ data class NWDayStrupTestResult(
 
 data class NWDayGenchTestResult(
     val gench_result_estimation: String,
-    val gench_result_indicator: Int,
+    val gench_result_indicator: Float,
     val gench_test_result_indicator_average: Float,
     val type: String
 )
@@ -133,8 +133,12 @@ data class NWDayTextAuditionTestResult(
     val average_volume_repeat: Float,
     val average_volume_read_average: Float,
     val average_volume_repeat_average: Float,
-    val pauses_count_read_type: String,
-    val pauses_count_repeat_type: String
+    val quality_read_type: String,
+    val quality_repeat_type: String,
+    val quality_read: Float,
+    val quality_repeat: Float,
+    val quality_read_average: Float,
+    val quality_repeat_average: Float,
 )
 
 data class NWDayPersonalReportTestResult(
@@ -155,6 +159,6 @@ data class NWDayDailyTestResult(
     val reactions_test_result: NWDayReactionsTestResult? = null,
     val text_audition_test_result: NWDayTextAuditionTestResult? = null,
     val day_description: String,
-    val day_type: String
+    val day_type: String? = null,
 )
 

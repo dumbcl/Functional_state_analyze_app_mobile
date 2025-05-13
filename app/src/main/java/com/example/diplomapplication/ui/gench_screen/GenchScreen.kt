@@ -35,6 +35,7 @@ fun GenchScreen(
     stopExperiment: (String) -> Unit,
     changeToPreExperiment: (String) -> Unit,
     openPPG: () -> Unit,
+    openECG: () -> Unit,
     onHeartRateChange: (String) -> Unit,
 ) {
     Scaffold(
@@ -98,6 +99,7 @@ fun GenchScreen(
                             openPPG = openPPG,
                             mainButtonText = stringResource(R.string.continue_test),
                             mainButtonAction = {changeToPreExperiment(preExpText)},
+                            openECG = openECG,
                         )
                     }
                     GenchScreenState.ScreenState.POST_EXPERIMENT -> {
@@ -107,6 +109,7 @@ fun GenchScreen(
                             openPPG = openPPG,
                             mainButtonText = stringResource(R.string.finish_test),
                             mainButtonAction = finishTest,
+                            openECG = openECG,
                         )
                     }
 
@@ -132,6 +135,7 @@ private fun ColumnScope.genchBlocks(
     heartRateText: String?,
     onHeartRateChange: (String) -> Unit,
     openPPG: () -> Unit,
+    openECG: () -> Unit,
     mainButtonText: String,
     mainButtonAction: () -> Unit,
 ) {
@@ -146,6 +150,14 @@ private fun ColumnScope.genchBlocks(
         modifier = Modifier.padding(bottom = 16.dp)
     ) {
         Text(stringResource(R.string.rate_heart_by_ppg))
+    }
+
+    Button(
+        onClick = openECG,
+        colors = ButtonDefaults.elevatedButtonColors(),
+        modifier = Modifier.padding(bottom = 16.dp)
+    ) {
+        Text(stringResource(R.string.rate_heart_by_ecg))
     }
 
     Button(

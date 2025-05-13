@@ -65,6 +65,7 @@ class GenchFragment: Fragment() {
                         startExperiment = { viewModel.startExperiment(it) },
                         stopExperiment = { viewModel.finishExperiment(it) },
                         openPPG = { viewModel.openPPG() },
+                        openECG = { viewModel.openECG() },
                         onHeartRateChange = { viewModel.updateHeartRateText(it) },
                         changeToPreExperiment = { viewModel.changeToPreExpState(it) }
                     )

@@ -97,6 +97,10 @@
             android:id="@+id/action_genchFragment_to_ppgFragment"
             app:destination="@id/ppgFragment"
             />
+        <action
+            android:id="@+id/action_genchFragment_to_ecgFragment"
+            app:destination="@id/ecgFragment"
+            />
     </fragment>
 
     <fragment
@@ -112,6 +116,10 @@
         <action
             android:id="@+id/action_rufieFragment_to_ppgFragment"
             app:destination="@id/ppgFragment"
+            />
+        <action
+            android:id="@+id/action_rufieFragment_to_ecgFragment"
+            app:destination="@id/ecgFragment"
             />
     </fragment>
 

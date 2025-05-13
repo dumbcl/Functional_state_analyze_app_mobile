@@ -6,8 +6,8 @@
     <string name="escal_testing">Тестирование ЭСКАЛ для оценки психотипа</string>
     <string name="escal_daily_testing">Тестирование ЭСКАЛ для оценки состояния</string>
     <string name="open_testing">Открыть тестирование ЭСКАЛ</string>
-    <string name="escal_testing_start">Сейчас вы пройдете тест ЭСКАЛ, пожалуйста, не закрывайте экран до окончания теста</string>
-    <string name="escal_daily_testing_start">Сейчас вы пройдете тест ЭСКАЛ, пожалуйста, не закрывайте экран до окончания теста</string>
+    <string name="escal_testing_start">Сейчас вы пройдете тест ЭСКАЛ, пожалуйста, не закрывайте экран до окончания теста. Выйти можно только с экрана результатов</string>
+    <string name="escal_daily_testing_start">Сейчас вы пройдете тест ЭСКАЛ для оценки текущего функционального состояния, пожалуйста, не закрывайте экран до окончания теста. Выйти можно только с экрана результатов</string>
     <string name="testing_start_ready">Я готов</string>
     <string name="testing_finish">Вы уверены, что хотите выйти? Если вы не завершили тестирование, то оно не сохранится</string>
     <string name="testing_finish_yes">Да, хочу выйти</string>
@@ -59,7 +59,7 @@
     <string name="finish">Закончить</string>
     <string name="finish_test">Завершить тест</string>
     <string name="rate_heart_by_ppg">Измерить частоту сердцебиения</string>
-    <string name="rate_heart_by_ecg">Измерить частоту сердцебиения с помощью экг</string>
+    <string name="rate_heart_by_ecg">Измерить частоту сердцебиения с помощью экг (если есть snapECG)</string>
     <string name="shtange_test">Проба Штанге</string>
 
     <string name="enter">Войти</string>
@@ -106,7 +106,7 @@
     <string name="reactions_finish_prompt">Тест завершён! Нажмите «Завершить тест», чтобы отправить результаты.</string>
 
     <string name="strup_test">Тест Струпа</string>
-    <string name="strup_description">Сейчас будет проводиться тест на когнитивную гибкость (Струп). На экране будут появляться слова, окрашенные в разные цвета. Ваша задача — вслух называть цвет, которым написано слово, игнорируя сам текст. Нажмите «Начать», чтобы запустить таймер на 60 секунд.</string>
+    <string name="strup_description">Сейчас будет проводиться тест на когнитивную гибкость. На экране будут появляться слова, окрашенные в разные цвета. Ваша задача — вслух называть цвет, которым написано слово, игнорируя сам текст. Нажмите «Начать», чтобы запустить таймер на 60 секунд.</string>
     <string name="strup_say_color_prompt">Назовите цвет, которым написано слово</string>
     <string name="strup_finished">Вы прошли тест! Нажмите «Завершить тест», чтобы отправить результат.</string>
 
@@ -123,7 +123,7 @@
     <string name="after_repeating">Запись сохранена, можете завершать, предупреждаю, обработка потребует время, пожалуйста подождите</string>
     <string name="listening_prepare">Сейчас вы прослушаете текст 2 раза, вашей задачей будет повторить его максимально точно</string>
     <string name="reading_prepare">Сейчас вам нужно будет прочитать текст, он появится после нажатия на кнопку "Начать запись"</string>
-    <string name="listen">Слушайте</string>
+    <string name="listen">Слушайте, как будете готовы нажмите на кнопку и начнется запись</string>
 
     <string name="something_went_wrong">Что-то пошло не так</string>
 
@@ -150,8 +150,8 @@
     <string name="strup_result">Результат теста Струпа</string>
     <string name="audio_reaction_result">Кол-во ошибок реакции на аудио сигналы</string>
     <string name="video_reaction_result">Кол-во ошибок реакции на визуальные сигналы</string>
-    <string name="read_text_pauses_result">Кол-во пауз при прочтении текста</string>
-    <string name="repeat_text_pauses_result">Кол-во пауз при повторении текста</string>
+    <string name="quality_read_text_result">Оценка прочтения текста</string>
+    <string name="quality_repeat_text_result">Оценка повторения текста</string>
     <string name="day_description">Описание оценки функционального состояния за день:</string>
 
     <string name="no_tests">Вы еще не прошли ни одного теста, либо оценка еще не готова</string>

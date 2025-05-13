@@ -172,23 +172,23 @@ fun DayEstimateDialogScreen(
                 )
             }
         }
-        if (item.textAuditionResult?.pausesCountRead != null) {
+        if (item.textAuditionResult?.qualityRead != null) {
             item {
                 TestResultRow(
-                    testName = stringResource(R.string.read_text_pauses_result),
-                    result = item.textAuditionResult.pausesCountRead.toString(),
-                    average = String.format("%.2f",item.textAuditionResult.pausesCountReadAverage),
-                    type = item.textAuditionResult.pausesCountReadType,
+                    testName = stringResource(R.string.quality_read_text_result),
+                    result = String.format("%.2f",item.textAuditionResult.qualityRead),
+                    average = String.format("%.2f",item.textAuditionResult.qualityReadAverage),
+                    type = item.textAuditionResult.qualityReadType,
                 )
             }
         }
-        if (item.textAuditionResult?.pausesCountRepeat != null) {
+        if (item.textAuditionResult?.qualityRepeat != null) {
             item {
                 TestResultRow(
-                    testName = stringResource(R.string.repeat_text_pauses_result),
-                    result = item.textAuditionResult.pausesCountRepeat.toString(),
-                    average = String.format("%.2f",item.textAuditionResult.pausesCountRepeatAverage),
-                    type = item.textAuditionResult.pausesCountRepeatType,
+                    testName = stringResource(R.string.quality_repeat_text_result),
+                    result = String.format("%.2f",item.textAuditionResult.qualityRepeat),
+                    average = String.format("%.2f",item.textAuditionResult.qualityRepeatAverage),
+                    type = item.textAuditionResult.qualityRepeatType,
                 )
             }
         }

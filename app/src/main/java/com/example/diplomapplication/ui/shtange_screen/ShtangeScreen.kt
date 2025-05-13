@@ -100,6 +100,7 @@ fun ShtangeScreen(
                             heartRateText = uiState.heartRateText,
                             onHeartRateChange = onHeartRateChange,
                             openPPG = openPPG,
+                            openECG = openECG,
                             mainButtonText = stringResource(R.string.continue_test),
                             mainButtonAction = {changeToPreExperiment(preExpText)},
                         )
@@ -109,6 +110,7 @@ fun ShtangeScreen(
                             heartRateText = uiState.heartRateText,
                             onHeartRateChange = onHeartRateChange,
                             openPPG = openPPG,
+                            openECG = openECG,
                             mainButtonText = stringResource(R.string.finish_test),
                             mainButtonAction = finishTest,
                         )
@@ -136,6 +138,7 @@ private fun ColumnScope.shtangeBlocks(
     heartRateText: String?,
     onHeartRateChange: (String) -> Unit,
     openPPG: () -> Unit,
+    openECG: () -> Unit,
     mainButtonText: String,
     mainButtonAction: () -> Unit,
 ) {
@@ -151,13 +154,14 @@ private fun ColumnScope.shtangeBlocks(
     ) {
         Text(stringResource(R.string.rate_heart_by_ppg))
     }
-//    Button(
-//        onClick = openPPG,
-//        colors = ButtonDefaults.filledTonalButtonColors(),
-//        modifier = Modifier.padding(bottom = 16.dp)
-//    ) {
-//        Text(stringResource(R.string.rate_heart_by_ppg))
-//    }
+
+    Button(
+        onClick = openECG,
+        colors = ButtonDefaults.elevatedButtonColors(),
+        modifier = Modifier.padding(bottom = 16.dp)
+    ) {
+        Text(stringResource(R.string.rate_heart_by_ecg))
+    }
 
     Button(
         onClick = mainButtonAction,

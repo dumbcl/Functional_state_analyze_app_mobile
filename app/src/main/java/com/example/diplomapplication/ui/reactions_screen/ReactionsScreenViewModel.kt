@@ -94,6 +94,7 @@ class ReactionsScreenViewModel(
     }
 
     private fun startTest(mode: Mode) {
+        tts?.speak("о", TextToSpeech.QUEUE_FLUSH, null, null)
         runningMode = mode
         testStartWall = System.currentTimeMillis()
         stimulusSchedule = generateSchedule()
@@ -114,10 +115,21 @@ class ReactionsScreenViewModel(
         handler.post(timerRunnable)
     }
 
-    private fun generateSchedule(): List<Long> =
-        List(30) { Random.nextLong(0, 120_000) }
-            .distinct()
-            .sorted()
+    private fun generateSchedule(): List<Long> {
+        val result = mutableListOf<Long>()
+        result.add(2000L)
+        var lastTime = 2000L
+
+        while (result.size < 30 && lastTime < 118_000) {
+            val nextInterval = 2000L + Random.nextLong(0, 3000)
+            lastTime += nextInterval
+            if (lastTime <= 120_000) {
+                result.add(lastTime)
+            }
+        }
+
+        return result
+    }
 
     private val timerRunnable = object : Runnable {
         override fun run() {

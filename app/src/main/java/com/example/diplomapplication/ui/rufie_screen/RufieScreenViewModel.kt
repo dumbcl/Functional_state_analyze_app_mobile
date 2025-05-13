@@ -9,6 +9,7 @@ import androidx.navigation.NavController
 import com.example.diplomapplication.R
 import com.example.diplomapplication.data.RufieTestResults
 import com.example.diplomapplication.data.TestsRepository
+import com.example.diplomapplication.ui.shtange_screen.ShtangeFragmentDirections
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -71,6 +72,10 @@ class RufieScreenViewModel(
 
     fun openPPG() {
         navController.navigate(RufieFragmentDirections.actionRufieFragmentToPpgFragment())
+    }
+
+    fun openECG() {
+        navController.navigate(RufieFragmentDirections.actionRufieFragmentToEcgFragment())
     }
 
     private fun startRestPhase() {

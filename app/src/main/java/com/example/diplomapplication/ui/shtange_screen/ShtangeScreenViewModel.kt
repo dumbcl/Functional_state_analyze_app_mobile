@@ -61,6 +61,7 @@ class ShtangeScreenViewModel(
     }
 
     fun changeToPreExpState(textChange: String) {
+        preExpHeartRate = uiState.value.heartRateText?.toInt()
         updateTextToSpeak(textChange)
         _uiState.update {
             uiState.value.copy(
@@ -73,7 +74,6 @@ class ShtangeScreenViewModel(
     fun startExperiment(textChange: String) {
         updateTextToSpeak(textChange)
         startTime = System.currentTimeMillis()
-        preExpHeartRate = uiState.value.heartRateText?.toInt()
         _uiState.update {
             uiState.value.copy(
                 heartRateText = null,

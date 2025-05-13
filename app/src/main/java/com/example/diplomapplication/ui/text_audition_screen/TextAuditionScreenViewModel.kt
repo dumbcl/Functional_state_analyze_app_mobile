@@ -67,6 +67,7 @@ class TextAuditionScreenViewModel(
 
     fun onStartClicked() {
         _uiState.update { it.copy(text = str(R.string.reading_prepare), screenState = TextAuditionScreenState.ScreenState.READING_PREPARE) }
+        tts?.speak(str(R.string.reading_prepare), TextToSpeech.QUEUE_FLUSH, null, null)
     }
 
     fun onStartRecordReading() {

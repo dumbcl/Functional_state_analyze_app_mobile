@@ -217,7 +217,12 @@ class TestsRepositoryImpl(
             val readTextIndex = RequestBody.create(MultipartBody.FORM, "${result.readTextIndex}")  // Значение для read_text_index
             val repeatTextIndex = RequestBody.create(MultipartBody.FORM, "${result.repeatTextIndex}")  // Значение для repeat_text_index
 
-            apiRepository.postTextAuditionResults(readTextIndex, repeatTextIndex, readPartFile, repeatPartFile)
+            apiRepository.postTextAuditionResults(
+                read_text_index = readTextIndex,
+                repeat_text_index = repeatTextIndex,
+                read_text_file = readPartFile,
+                repeat_text_file = repeatPartFile
+            )
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
@@ -374,15 +379,15 @@ class TestsRepositoryImpl(
                             } else null,
                             textAuditionResult = if (result.text_audition_test_result != null) {
                                 DayTextAuditionTestResult(
-                                    pausesCountRead = result.text_audition_test_result.pauses_count_read,
-                                    pausesCountRepeat = result.text_audition_test_result.pauses_count_repeat,
-                                    pausesCountReadAverage = result.text_audition_test_result.pauses_count_read_average,
-                                    pausesCountRepeatAverage = result.text_audition_test_result.pauses_count_repeat_average,
-                                    pausesCountReadType = EstimateType.entries.toTypedArray().find {
-                                        it.name == result.text_audition_test_result.pauses_count_read_type
+                                    qualityRead = result.text_audition_test_result.quality_read,
+                                    qualityRepeat = result.text_audition_test_result.quality_repeat,
+                                    qualityReadAverage = result.text_audition_test_result.quality_read_average,
+                                    qualityRepeatAverage = result.text_audition_test_result.quality_repeat_average,
+                                    qualityReadType = EstimateType.entries.toTypedArray().find {
+                                        it.name == result.text_audition_test_result.quality_read_type
                                     } ?: EstimateType.UNKNOWN,
-                                    pausesCountRepeatType = EstimateType.entries.toTypedArray().find {
-                                        it.name == result.text_audition_test_result.pauses_count_repeat_type
+                                    qualityRepeatType = EstimateType.entries.toTypedArray().find {
+                                        it.name == result.text_audition_test_result.quality_repeat_type
                                     } ?: EstimateType.UNKNOWN
                                 )
                             } else null,

@@ -76,7 +76,7 @@ data class DayStrupTestResult(
 
 @Parcelize
 data class DayGenchTestResult(
-    val genchResultIndicator: Int,
+    val genchResultIndicator: Float,
     val genchResultIndicatorAverage: Float,
     val type: EstimateType
 ) : Parcelable
@@ -93,12 +93,12 @@ data class DayReactionsTestResult(
 
 @Parcelize
 data class DayTextAuditionTestResult(
-    val pausesCountRead: Int,
-    val pausesCountRepeat: Int,
-    val pausesCountReadAverage: Float,
-    val pausesCountRepeatAverage: Float,
-    val pausesCountReadType: EstimateType,
-    val pausesCountRepeatType: EstimateType
+    val qualityRead: Float,
+    val qualityRepeat: Float,
+    val qualityReadAverage: Float,
+    val qualityRepeatAverage: Float,
+    val qualityReadType: EstimateType,
+    val qualityRepeatType: EstimateType
 ) : Parcelable
 
 @Parcelize

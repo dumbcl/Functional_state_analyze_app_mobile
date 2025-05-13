@@ -63,6 +63,7 @@ class RufieFragment : Fragment() {
                         mainButtonClick = viewModel::onMainButtonClicked,
                         onHeartRateChange = viewModel::updateHeartRateText,
                         openPPG = viewModel::openPPG,
+                        openECG = viewModel::openECG,
                     )
                 }
             }

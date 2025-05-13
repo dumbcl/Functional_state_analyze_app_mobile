@@ -60,6 +60,7 @@ class StrupScreenViewModel(
     /* ====================================================================================== */
 
     fun onStartClicked() {
+        tts?.speak("о", TextToSpeech.QUEUE_FLUSH, null, null)
         stimuli = generateTestSequence()
         currentIdx = 0
         correct = 0

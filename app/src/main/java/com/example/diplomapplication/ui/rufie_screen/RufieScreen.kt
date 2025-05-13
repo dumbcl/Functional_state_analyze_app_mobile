@@ -33,6 +33,7 @@ fun RufieScreen(
     mainButtonClick: () -> Unit,
     onHeartRateChange: (String) -> Unit,
     openPPG: () -> Unit,
+    openECG: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -98,7 +99,8 @@ fun RufieScreen(
                                 RufieScreenState.ScreenState.P3_INPUT -> stringResource(R.string.finish_test)
                                 else -> stringResource(R.string.continue_test)
                             },
-                            mainButtonClick = mainButtonClick
+                            mainButtonClick = mainButtonClick,
+                            openECG = openECG,
                         )
                     }
                 }
@@ -112,6 +114,7 @@ private fun ColumnScope.HeartRateInputBlock(
     heartRateText: String?,
     onHeartRateChange: (String) -> Unit,
     openPPG: () -> Unit,
+    openECG: () -> Unit,
     mainButtonText: String,
     mainButtonClick: () -> Unit
 ) {
@@ -125,6 +128,14 @@ private fun ColumnScope.HeartRateInputBlock(
         colors = ButtonDefaults.filledTonalButtonColors(),
         modifier = Modifier.padding(bottom = 16.dp)
     ) { Text(stringResource(R.string.rate_heart_by_ppg)) }
+
+    Button(
+        onClick = openECG,
+        colors = ButtonDefaults.elevatedButtonColors(),
+        modifier = Modifier.padding(bottom = 16.dp)
+    ) {
+        Text(stringResource(R.string.rate_heart_by_ecg))
+    }
 
     MainActionButton(
         enabled = heartRateText.orEmpty().isNotEmpty(),

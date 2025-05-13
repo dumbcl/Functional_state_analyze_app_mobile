@@ -57,6 +57,7 @@ class GenchScreenViewModel(
     }
 
     fun changeToPreExpState(textChange: String) {
+        preExpHeartRate = uiState.value.heartRateText?.toInt()
         updateTextToSpeak(textChange)
         _uiState.update {
             uiState.value.copy(
@@ -69,7 +70,6 @@ class GenchScreenViewModel(
     fun startExperiment(textChange: String) {
         updateTextToSpeak(textChange)
         startTime = System.currentTimeMillis()
-        preExpHeartRate = uiState.value.heartRateText?.toInt()
         _uiState.update {
             uiState.value.copy(
                 heartRateText = null,
@@ -134,5 +134,9 @@ class GenchScreenViewModel(
 
     fun openPPG() {
         navController.navigate(GenchFragmentDirections.actionGenchFragmentToPpgFragment())
+    }
+
+    fun openECG() {
+        navController.navigate(GenchFragmentDirections.actionGenchFragmentToEcgFragment())
     }
 }
