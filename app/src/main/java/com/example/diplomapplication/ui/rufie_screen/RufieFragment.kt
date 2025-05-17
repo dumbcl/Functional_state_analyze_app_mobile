@@ -46,7 +46,7 @@ class RufieFragment : Fragment() {
 
         tts = TextToSpeech(requireContext()) { status ->
             if (status == TextToSpeech.SUCCESS) {
-                tts?.language = Locale.getDefault()
+                tts?.language = Locale("ru", "RU")
                 viewModel.tts = tts
                 viewModel.str(R.string.rufie_explanation_pre_rest).let {
                     viewModel.say(R.string.rufie_explanation_pre_rest)

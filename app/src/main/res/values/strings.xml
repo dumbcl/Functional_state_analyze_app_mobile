@@ -91,7 +91,7 @@
 
     <string name="rufie_test">Проба Руфье</string>
 
-    <string name="rufie_explanation_pre_rest">Сейчас вам предстоит тест с приседаниями, но сначала нужно 5 минут спокойно посидеть. Нажмите «Начать», чтобы запустить таймер.</string>
+    <string name="rufie_explanation_pre_rest">Сейчас вам предстоит тест с приседаниями, но сначала нужно 30 секунд спокойно посидеть. Нажмите «Начать», чтобы запустить таймер.</string>
     <string name="rufie_explanation_rest">Отдыхайте, сохраняйте спокойное дыхание — идёт таймер отдыха.</string>
     <string name="rufie_explanation_p1_input">Теперь измерьте частоту сердечных сокращений за 15 секунд. Введите её вручную или нажмите «Измерить частоту сердцебиения» для съёмки с помощью смартфона.</string>
     <string name="rufie_explanation_pre_exercise">Сейчас вам предстоит сделать 30 приседаний за 45 секунд. Как будете готовы — нажмите «Начать».</string>
@@ -154,7 +154,28 @@
     <string name="quality_repeat_text_result">Оценка повторения текста</string>
     <string name="day_description">Описание оценки функционального состояния за день:</string>
 
+    <string name="audio_reaction_avg_result">Среднее значение аудио реакции в мс</string>
+    <string name="audio_reaction_std_result">Стандартное отклонение аудио реакции в мс</string>
+    <string name="visual_reaction_avg_result">Среднее значение визуальной реакции в мс</string>
+    <string name="visual_reaction_std_result">Стандартное отклонение визуальной реакции в мс</string>
+
+    <string name="escal_daily_result">Оценка текущего состояния по методике "МЦТ"</string>
+    <string name="performance">Работоспособность</string>
+    <string name="fatigue">Утомление</string>
+    <string name="anxiety">Тревога</string>
+    <string name="confliсt">Конфликт</string>
+    <string name="ipx">Интегральный показатель САН абсолютно</string>
+    <string name="ipz">Интегральный показатель САН нормировано</string>
+
     <string name="no_tests">Вы еще не прошли ни одного теста, либо оценка еще не готова</string>
 
     <string name="heart_rate_ready">Полученное чсс: %s</string>
+
+    <string name="int_estimate_result">Интегральная оценка состояния</string>
+
+    <string name="to_trends">К трендам</string>
+    <string name="trends_result">Тренды результатов</string>
+    
+    <string name="shtange_graph_result">Индекс пробы Штанге</string>
+    <string name="gench_graph_result">Индекс пробы Генча</string>
 </resources>

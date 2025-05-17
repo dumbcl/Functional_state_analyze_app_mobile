@@ -41,6 +41,7 @@ data class DayEstimate(
     val genchTestResult: DayGenchTestResult?,
     val reactionsResult: DayReactionsTestResult?,
     val textAuditionResult: DayTextAuditionTestResult?,
+    val escalDaily: DayEscalDailyTestResult?,
     val dayDescription: String,
     val type: EstimateType,
 ) : Parcelable
@@ -49,7 +50,8 @@ data class DayEstimate(
 data class DayShtangeTestResult(
     val shtangeResultIndicator: Float,
     val shtangeResultIndicatorAverage: Float,
-    val type: EstimateType
+    val type: EstimateType,
+    val date: String,
 ) : Parcelable
 
 @Parcelize
@@ -57,28 +59,32 @@ data class DayPulseMeasurementResult(
     val pulseAverage: Float,
     val pulseMax: Int,
     val pulseMin: Int,
-    val type: EstimateType
+    val type: EstimateType,
+    val date: String,
 ) : Parcelable
 
 @Parcelize
 data class DayRufieTestResult(
     val rufieResultIndicator: Float,
     val rufieResultIndicatorAverage: Float,
-    val type: EstimateType
+    val type: EstimateType,
+    val date: String,
 ) : Parcelable
 
 @Parcelize
 data class DayStrupTestResult(
     val strupResult: Int,
     val strupResultAverage: Float,
-    val type: EstimateType
+    val type: EstimateType,
+    val date: String,
 ) : Parcelable
 
 @Parcelize
 data class DayGenchTestResult(
     val genchResultIndicator: Float,
     val genchResultIndicatorAverage: Float,
-    val type: EstimateType
+    val type: EstimateType,
+    val date: String,
 ) : Parcelable
 
 @Parcelize
@@ -89,6 +95,11 @@ data class DayReactionsTestResult(
     val reactionsAudioErrorsAverage: Float,
     val reactionsVisualErrorsType: EstimateType,
     val reactionsAudioErrorsType: EstimateType,
+    val reactionAudioDiffAvg: Float,
+    val reactionVisualDiffAvg: Float,
+    val reactionAudioDiffStd: Float,
+    val reactionVisualDiffStd: Float,
+    val date: String,
 ) : Parcelable
 
 @Parcelize
@@ -98,14 +109,51 @@ data class DayTextAuditionTestResult(
     val qualityReadAverage: Float,
     val qualityRepeatAverage: Float,
     val qualityReadType: EstimateType,
-    val qualityRepeatType: EstimateType
+    val qualityRepeatType: EstimateType,
+    val date: String,
 ) : Parcelable
 
 @Parcelize
 data class DayPersonalReport(
     val performanceMeasure: Int,
     val performanceMeasureAverage: Float,
-    val type: EstimateType
+    val type: EstimateType,
+    val date: String,
+) : Parcelable
+
+@Parcelize
+data class DayEscalDailyTestResult(
+    val performance: Int,
+    val performanceType: EstimateType,
+    val fatigue: Int,
+    val fatigueType: EstimateType,
+    val anxiety: Int,
+    val anxietyType: EstimateType,
+    val conflict: Int,
+    val conflictType: EstimateType,
+    val sanX: Int,
+    val sanZ: Float,
+    val date: String,
+) : Parcelable
+
+@Parcelize
+data class DayEstimationTestResult(
+    val estimation: Int,
+    val date: String,
+) : Parcelable
+
+@Parcelize
+data class Trends(
+    val shtangeResult: List<DayShtangeTestResult>?,
+    val personalReport: List<DayPersonalReport>?,
+    val pulseMeasurement: List<DayPulseMeasurementResult>?,
+    val rufieTestResult: List<DayRufieTestResult>?,
+    val strupTestResult: List<DayStrupTestResult>?,
+    val genchTestResult: List<DayGenchTestResult>?,
+    val reactionsResult: List<DayReactionsTestResult>?,
+    val textAuditionResult: List<DayTextAuditionTestResult>?,
+    val escalDaily: List<DayEscalDailyTestResult>?,
+    val estimation: List<DayEstimationTestResult>?,
 ) : Parcelable
 
 enum class EstimateType {

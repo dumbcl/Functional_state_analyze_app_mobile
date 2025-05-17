@@ -18,6 +18,7 @@ import com.example.diplomapplication.ui.rufie_screen.RufieScreenViewModel
 import com.example.diplomapplication.ui.shtange_screen.ShtangeScreenViewModel
 import com.example.diplomapplication.ui.strup_screen.StrupScreenViewModel
 import com.example.diplomapplication.ui.text_audition_screen.TextAuditionScreenViewModel
+import com.example.diplomapplication.ui.trends_screen.TrendsScreenViewModel
 import com.example.diplomapplication.util.API_ENDPOINT
 import com.example.diplomapplication.util.CONNECT_TIMEOUT
 import com.example.diplomapplication.util.READ_TIMEOUT
@@ -55,6 +56,7 @@ val viewModelsModule = module {
     viewModel { ReactionsScreenViewModel(get()) }
     viewModel { StrupScreenViewModel(get()) }
     viewModel { TextAuditionScreenViewModel(get()) }
+    viewModel { TrendsScreenViewModel(get()) }
 }
 
 val repositoryModule = module {

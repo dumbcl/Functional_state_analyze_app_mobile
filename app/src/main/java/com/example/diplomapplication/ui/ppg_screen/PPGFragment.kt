@@ -49,7 +49,7 @@ class PPGFragment : Fragment()  {
         checkCameraPermission()
         tts = TextToSpeech(requireContext()) { status ->
             if (status == TextToSpeech.SUCCESS) {
-                tts?.language = Locale.getDefault()
+                tts?.language = Locale("ru", "RU")
                 viewModel.updateTextToSpeak(getText(R.string.ppg_first_step).toString())
                 tts?.speak(getText(R.string.ppg_first_step).toString(), TextToSpeech.QUEUE_FLUSH, null, null)
                 observeTextToSpeak()

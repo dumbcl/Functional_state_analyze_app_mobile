@@ -2,7 +2,6 @@ package com.example.diplomapplication.data
 
 import android.content.SharedPreferences
 import androidx.health.connect.client.records.HeartRateRecord
-import androidx.health.connect.client.time.TimeRangeFilter
 import com.example.diplomapplication.data.network.ApiRepository
 import com.example.diplomapplication.data.network.ApiResultState
 import com.example.diplomapplication.data.network.NWEscalDailyResults
@@ -15,8 +14,6 @@ import com.example.diplomapplication.data.network.NWRufieTestResult
 import com.example.diplomapplication.data.network.NWShtangeTestResult
 import com.example.diplomapplication.data.network.NWStrupTestResult
 import com.example.diplomapplication.data.network.NWUserLoginRequest
-import com.example.diplomapplication.util.PREVIOUS_TIME
-import com.google.common.net.MediaType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -25,11 +22,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import kotlin.apply
 
 class TestsRepositoryImpl(
     private val apiRepository: ApiRepository,
@@ -314,7 +306,8 @@ class TestsRepositoryImpl(
                                     shtangeResultIndicatorAverage = result.shtange_test_result.shtange_test_result_indicator_average,
                                     type = EstimateType.entries.toTypedArray().find {
                                         it.name == result.shtange_test_result.type
-                                    } ?: EstimateType.UNKNOWN
+                                    } ?: EstimateType.UNKNOWN,
+                                    date = result.shtange_test_result.date.orEmpty(),
                                 )
                             } else null,
                             personalReport = if (result.personal_report != null) {
@@ -323,7 +316,8 @@ class TestsRepositoryImpl(
                                     performanceMeasureAverage = result.personal_report.personal_report_current_average,
                                     type = EstimateType.entries.toTypedArray().find {
                                         it.name == result.personal_report.type
-                                    } ?: EstimateType.UNKNOWN
+                                    } ?: EstimateType.UNKNOWN,
+                                    date = result.personal_report.date.orEmpty(),
                                 )
                             } else null,
                             pulseMeasurement = if (result.pulse_measurement != null) {
@@ -333,7 +327,8 @@ class TestsRepositoryImpl(
                                     pulseMin = result.pulse_measurement.pulseMin,
                                     type = EstimateType.entries.toTypedArray().find {
                                         it.name == result.pulse_measurement.type
-                                    } ?: EstimateType.UNKNOWN
+                                    } ?: EstimateType.UNKNOWN,
+                                    date = result.pulse_measurement.date.orEmpty(),
                                 )
                             } else null,
                             rufieTestResult = if (result.rufie_test_result != null) {
@@ -342,7 +337,8 @@ class TestsRepositoryImpl(
                                     rufieResultIndicatorAverage = result.rufie_test_result.rufie_test_result_indicator_average,
                                     type = EstimateType.entries.toTypedArray().find {
                                         it.name == result.rufie_test_result.type
-                                    } ?: EstimateType.UNKNOWN
+                                    } ?: EstimateType.UNKNOWN,
+                                    date = result.rufie_test_result.date.orEmpty(),
                                 )
                             } else null,
                             strupTestResult = if (result.strup_test_result != null) {
@@ -351,7 +347,8 @@ class TestsRepositoryImpl(
                                     strupResultAverage = result.strup_test_result.strup_test_result_average,
                                     type = EstimateType.entries.toTypedArray().find {
                                         it.name == result.strup_test_result.type
-                                    } ?: EstimateType.UNKNOWN
+                                    } ?: EstimateType.UNKNOWN,
+                                    date = result.strup_test_result.date.orEmpty(),
                                 )
                             } else null,
                             genchTestResult = if (result.gench_test_result != null) {
@@ -360,7 +357,8 @@ class TestsRepositoryImpl(
                                     genchResultIndicatorAverage = result.gench_test_result.gench_test_result_indicator_average,
                                     type = EstimateType.entries.toTypedArray().find {
                                         it.name == result.gench_test_result.type
-                                    } ?: EstimateType.UNKNOWN
+                                    } ?: EstimateType.UNKNOWN,
+                                    date = result.gench_test_result.date.orEmpty(),
                                 )
                             } else null,
                             reactionsResult = if (result.reactions_test_result != null) {
@@ -369,12 +367,19 @@ class TestsRepositoryImpl(
                                     reactionsAudioErrors = result.reactions_test_result.reactions_audio_errors,
                                     reactionsVisualErrorsAverage = result.reactions_test_result.reactions_visual_errors_average,
                                     reactionsAudioErrorsAverage = result.reactions_test_result.reactions_audio_errors_average,
-                                    reactionsVisualErrorsType = EstimateType.entries.toTypedArray().find {
-                                        it.name == result.reactions_test_result.reactions_visual_errors_type
-                                    } ?: EstimateType.UNKNOWN,
-                                    reactionsAudioErrorsType = EstimateType.entries.toTypedArray().find {
-                                        it.name == result.reactions_test_result.reactions_audio_errors_type
-                                    } ?: EstimateType.UNKNOWN
+                                    reactionsVisualErrorsType = EstimateType.entries.toTypedArray()
+                                        .find {
+                                            it.name == result.reactions_test_result.reactions_visual_errors_type
+                                        } ?: EstimateType.UNKNOWN,
+                                    reactionsAudioErrorsType = EstimateType.entries.toTypedArray()
+                                        .find {
+                                            it.name == result.reactions_test_result.reactions_audio_errors_type
+                                        } ?: EstimateType.UNKNOWN,
+                                    reactionAudioDiffAvg = result.reactions_test_result.reactions_audio_diff_avg,
+                                    reactionVisualDiffAvg = result.reactions_test_result.reactions_visual_diff_avg,
+                                    reactionAudioDiffStd = result.reactions_test_result.reactions_audio_std_avg,
+                                    reactionVisualDiffStd = result.reactions_test_result.reactions_visual_std_avg,
+                                    date = result.reactions_test_result.date.orEmpty(),
                                 )
                             } else null,
                             textAuditionResult = if (result.text_audition_test_result != null) {
@@ -388,7 +393,31 @@ class TestsRepositoryImpl(
                                     } ?: EstimateType.UNKNOWN,
                                     qualityRepeatType = EstimateType.entries.toTypedArray().find {
                                         it.name == result.text_audition_test_result.quality_repeat_type
-                                    } ?: EstimateType.UNKNOWN
+                                    } ?: EstimateType.UNKNOWN,
+                                    date = result.text_audition_test_result.date.orEmpty(),
+                                )
+                            } else null,
+                            escalDaily = if (result.escal_daily_test_result != null) {
+                                DayEscalDailyTestResult(
+                                    performance = result.escal_daily_test_result.performance,
+                                    performanceType = EstimateType.entries.toTypedArray().find {
+                                        it.name == result.escal_daily_test_result.performance_type
+                                    } ?: EstimateType.UNKNOWN,
+                                    fatigue = result.escal_daily_test_result.fatigue,
+                                    fatigueType = EstimateType.entries.toTypedArray().find {
+                                        it.name == result.escal_daily_test_result.fatigue_type
+                                    } ?: EstimateType.UNKNOWN,
+                                    anxiety = result.escal_daily_test_result.anxiety,
+                                    anxietyType = EstimateType.entries.toTypedArray().find {
+                                        it.name == result.escal_daily_test_result.anxiety_type
+                                    } ?: EstimateType.UNKNOWN,
+                                    conflict = result.escal_daily_test_result.conflict,
+                                    conflictType = EstimateType.entries.toTypedArray().find {
+                                        it.name == result.escal_daily_test_result.conflict_type
+                                    } ?: EstimateType.UNKNOWN,
+                                    sanX = result.escal_daily_test_result.sanX,
+                                    sanZ = result.escal_daily_test_result.sanZ,
+                                    date = result.escal_daily_test_result.date.orEmpty(),
                                 )
                             } else null,
                             dayDescription = result.day_description,
@@ -399,6 +428,147 @@ class TestsRepositoryImpl(
                     } else {
                         null
                     }
+                }
+            )
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun getTrends(): Result<Trends?> {
+        return try {
+            val result = apiRepository.getTrends()
+
+            Result.success(
+                result?.let {
+                    Trends(
+                        shtangeResult = result.shtange_test_result?.map { res ->
+                            DayShtangeTestResult(
+                                shtangeResultIndicator = res.shtange_result_indicator,
+                                shtangeResultIndicatorAverage = res.shtange_test_result_indicator_average,
+                                type = EstimateType.entries.toTypedArray().find {
+                                    it.name == res.type
+                                } ?: EstimateType.UNKNOWN,
+                                date = res.date,
+                            )
+                        },
+                        personalReport = result.personal_report?.map { res ->
+                            DayPersonalReport(
+                                performanceMeasure = res.personal_report_current,
+                                performanceMeasureAverage = res.personal_report_current_average,
+                                type = EstimateType.entries.toTypedArray().find {
+                                    it.name == res.type
+                                } ?: EstimateType.UNKNOWN,
+                                date = res.date,
+                            )
+                        },
+                        pulseMeasurement = result.pulse_measurement?.map { res ->
+                            DayPulseMeasurementResult(
+                                pulseAverage = res.pulseAverage,
+                                pulseMax = res.pulseMax,
+                                pulseMin = res.pulseMin,
+                                type = EstimateType.entries.toTypedArray().find {
+                                    it.name == res.type
+                                } ?: EstimateType.UNKNOWN,
+                                date = res.date,
+                            )
+                        },
+                        rufieTestResult = result.rufie_test_result?.map { res ->
+                            DayRufieTestResult(
+                                rufieResultIndicator = res.rufie_result_indicator,
+                                rufieResultIndicatorAverage = res.rufie_test_result_indicator_average,
+                                type = EstimateType.entries.toTypedArray().find {
+                                    it.name == res.type
+                                } ?: EstimateType.UNKNOWN,
+                                date = res.date,
+                            )
+                        },
+                        strupTestResult = result.strup_test_result?.map { res ->
+                            DayStrupTestResult(
+                                strupResult = res.strup_result,
+                                strupResultAverage = res.strup_test_result_average,
+                                type = EstimateType.entries.toTypedArray().find {
+                                    it.name == res.type
+                                } ?: EstimateType.UNKNOWN,
+                                date = res.date,
+                            )
+                        },
+                        genchTestResult = result.gench_test_result?.map { res ->
+                            DayGenchTestResult(
+                                genchResultIndicator = res.gench_result_indicator,
+                                genchResultIndicatorAverage = res.gench_test_result_indicator_average,
+                                type = EstimateType.entries.toTypedArray().find {
+                                    it.name == res.type
+                                } ?: EstimateType.UNKNOWN,
+                                date = res.date,
+                            )
+                        },
+                        reactionsResult = result.reactions_test_result?.map { res ->
+                            DayReactionsTestResult(
+                                reactionsVisualErrors = res.reactions_visual_errors,
+                                reactionsAudioErrors = res.reactions_audio_errors,
+                                reactionsVisualErrorsAverage = res.reactions_visual_errors_average,
+                                reactionsAudioErrorsAverage = res.reactions_audio_errors_average,
+                                reactionsVisualErrorsType = EstimateType.entries.toTypedArray()
+                                    .find {
+                                        it.name == res.reactions_visual_errors_type
+                                    } ?: EstimateType.UNKNOWN,
+                                reactionsAudioErrorsType = EstimateType.entries.toTypedArray()
+                                    .find {
+                                        it.name == res.reactions_audio_errors_type
+                                    } ?: EstimateType.UNKNOWN,
+                                reactionAudioDiffAvg = res.reactions_audio_diff_avg,
+                                reactionVisualDiffAvg = res.reactions_visual_diff_avg,
+                                reactionAudioDiffStd = res.reactions_audio_std_avg,
+                                reactionVisualDiffStd = res.reactions_visual_std_avg,
+                                date = res.date.orEmpty(),
+                            )
+                        },
+                        textAuditionResult = result.text_audition_test_result?.map { res ->
+                            DayTextAuditionTestResult(
+                                qualityRead = res.quality_read,
+                                qualityRepeat = res.quality_repeat,
+                                qualityReadAverage = res.quality_read_average,
+                                qualityRepeatAverage = res.quality_repeat_average,
+                                qualityReadType = EstimateType.entries.toTypedArray().find {
+                                    it.name == res.quality_read_type
+                                } ?: EstimateType.UNKNOWN,
+                                qualityRepeatType = EstimateType.entries.toTypedArray().find {
+                                    it.name == res.quality_repeat_type
+                                } ?: EstimateType.UNKNOWN,
+                                date = res.date.orEmpty(),
+                            )
+                        },
+                        escalDaily = result.escal_daily_test_result?.map { res ->
+                            DayEscalDailyTestResult(
+                                performance = res.performance,
+                                performanceType = EstimateType.entries.toTypedArray().find {
+                                    it.name == res.performance_type
+                                } ?: EstimateType.UNKNOWN,
+                                fatigue = res.fatigue,
+                                fatigueType = EstimateType.entries.toTypedArray().find {
+                                    it.name == res.fatigue_type
+                                } ?: EstimateType.UNKNOWN,
+                                anxiety = res.anxiety,
+                                anxietyType = EstimateType.entries.toTypedArray().find {
+                                    it.name == res.anxiety_type
+                                } ?: EstimateType.UNKNOWN,
+                                conflict = res.conflict,
+                                conflictType = EstimateType.entries.toTypedArray().find {
+                                    it.name == res.conflict_type
+                                } ?: EstimateType.UNKNOWN,
+                                sanX = res.sanX,
+                                sanZ = res.sanZ,
+                                date = res.date.orEmpty(),
+                            )
+                        },
+                        estimation = result.estimation_result?.map { res ->
+                            DayEstimationTestResult(
+                                estimation = res.estimation,
+                                date = res.date,
+                            )
+                        }
+                    )
                 }
             )
         } catch (e: Exception) {

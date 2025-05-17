@@ -68,6 +68,10 @@
             android:id="@+id/action_profileFragment_to_dayEstimateDialogFragment"
             app:destination="@id/dayEstimateDialogFragment"
             />
+        <action
+            android:id="@+id/action_profileFragment_to_trendsFragment"
+            app:destination="@id/trendsFragment"
+            />
     </fragment>
 
     <fragment
@@ -169,6 +173,12 @@
         android:id="@+id/ecgFragment"
         android:name="com.example.diplomapplication.ui.ecg_screen.EcgFragment"
         android:label="ECGFragment">
+    </fragment>
+
+    <fragment
+        android:id="@+id/trendsFragment"
+        android:name="com.example.diplomapplication.ui.trends_screen.TrendsFragment"
+        android:label="TrendsFragment">
     </fragment>
 
 </navigation>

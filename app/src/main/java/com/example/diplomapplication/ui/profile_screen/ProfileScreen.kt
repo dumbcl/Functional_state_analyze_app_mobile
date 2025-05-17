@@ -17,6 +17,7 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -40,6 +41,7 @@ fun ProfileScreen(
     uiState: ProfileScreenState,
     openMainScreen: () -> Unit,
     onDayClick: (Int) -> Unit,
+    openTrends: () -> Unit,
     refresh: () -> Unit,
 ) {
     Scaffold(
@@ -69,11 +71,20 @@ fun ProfileScreen(
                 modifier = Modifier.padding(16.dp)
             ) {
                 item {
-                    Text(
-                        text = stringResource(R.string.profile_results_title),
-                        style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.padding(bottom = 16.dp)
-                    )
+                    Column {
+                        Text(
+                            text = stringResource(R.string.profile_results_title),
+                            style = MaterialTheme.typography.titleLarge,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                        Button(
+                            onClick = openTrends,
+                            colors = ButtonDefaults.filledTonalButtonColors(),
+                            modifier = Modifier.padding(bottom = 16.dp).align(Alignment.End)
+                        ) {
+                            Text(stringResource(R.string.to_trends))
+                        }
+                    }
                 }
 
                 when (uiState.status) {

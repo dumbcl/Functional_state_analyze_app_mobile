@@ -52,17 +52,12 @@ class StrupFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         vm.navController = findNavController()
-        vm.showSnack = {
-            Snackbar
-                .make(requireView(), getString(R.string.something_went_wrong), Snackbar.LENGTH_LONG)
-                .show()
-        }
         vm.str = { getText(it).toString() }
         vm.requestSpeech = { awaitSpeechText() }
 
         tts = TextToSpeech(requireContext()) {
             if (it == TextToSpeech.SUCCESS) {
-                tts?.language = Locale.getDefault()
+                tts?.language = Locale("ru", "RU")
                 vm.tts = tts
                 vm.uiState.value.description ?: vm.speakAndSet(R.string.strup_description) { it }
             }
@@ -82,6 +77,15 @@ class StrupFragment : Fragment() {
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        vm.showSnack = {
+            Snackbar
+                .make(view, getString(R.string.something_went_wrong), Snackbar.LENGTH_LONG)
+                .show()
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         tts?.stop(); tts?.shutdown()
@@ -97,11 +101,11 @@ class StrupFragment : Fragment() {
             speechCallback = null
         }
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-            putExtra(RecognizerIntent.EXTRA_PROMPT,
-                getString(R.string.strup_say_color_prompt))
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ru-RU")
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "ru-RU")
+            putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, true)
+            putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.strup_say_color_prompt))
         }
         speechLauncher.launch(intent)
         cont.invokeOnCancellation { speechCallback = null }

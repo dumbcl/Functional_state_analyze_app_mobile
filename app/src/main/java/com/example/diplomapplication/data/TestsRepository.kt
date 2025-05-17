@@ -22,4 +22,5 @@ interface TestsRepository {
     suspend fun sendPersonalReport(performanceMeasure: Int, daysComparisonEnumIndex: Int): Result<Unit>
     suspend fun sendEscalDailyResults(results: EscalDailyResults): Result<Unit>
     suspend fun getTestResults(): Result<List<DayEstimate>>
+    suspend fun getTrends(): Result<Trends?>
 }

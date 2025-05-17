@@ -85,4 +85,8 @@ interface ApiRepository {
 
     @GET("daily-test-results")
     suspend fun getResults(): List<NWDayDailyTestResult?>?
+
+    @GET("trend-test-results")
+    suspend fun getTrends(): NWTrendTestResult?
+
 }

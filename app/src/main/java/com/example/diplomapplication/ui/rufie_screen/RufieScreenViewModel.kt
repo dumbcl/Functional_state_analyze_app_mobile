@@ -80,7 +80,7 @@ class RufieScreenViewModel(
 
     private fun startRestPhase() {
         say(R.string.rufie_explanation_rest)
-        startTimer(RufieScreenState.ScreenState.REST, 5.minutes)
+        startTimer(RufieScreenState.ScreenState.REST, 30.seconds)
     }
 
     private fun onRestFinished() {

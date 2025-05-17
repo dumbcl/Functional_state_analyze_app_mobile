@@ -50,7 +50,7 @@ class ShtangeFragment: Fragment() {
 
         tts = TextToSpeech(requireContext()) { status ->
             if (status == TextToSpeech.SUCCESS) {
-                tts?.language = Locale.getDefault()
+                tts?.language = Locale("ru", "RU")
                 viewModel.tts = tts
                 if (wasAnnounced.not()) viewModel.updateTextToSpeak(getText(R.string.shtange_explanation_pre_exp).toString())
             }

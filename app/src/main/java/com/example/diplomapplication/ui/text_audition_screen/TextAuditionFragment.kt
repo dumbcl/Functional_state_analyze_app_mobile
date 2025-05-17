@@ -65,7 +65,7 @@ class TextAuditionFragment : Fragment() {
 
         tts = TextToSpeech(requireContext()) {
             if (it == TextToSpeech.SUCCESS) {
-                tts?.language = Locale.getDefault()
+                tts?.language = Locale("ru", "RU")
                 vm.tts = tts
                 vm.initSpeak()
             }

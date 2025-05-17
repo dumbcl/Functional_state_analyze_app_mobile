@@ -44,10 +44,15 @@ class ReactionsScreenViewModel(
 
     private var mediaPlayer: MediaPlayer? = null
     private fun playBeep() {
+        mediaPlayer?.release()
         val ctx = navController.context.applicationContext
         if (mediaPlayer == null) {
             mediaPlayer = MediaPlayer.create(ctx, R.raw.beep_short)?.apply {
                 setOnCompletionListener { /* держим плеер созданным — только перематываем */ }
+            }
+            if (mediaPlayer == null) {
+                showSnack.invoke()
+                return
             }
         }
         mediaPlayer?.let {

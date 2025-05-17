@@ -27,17 +27,11 @@ class ReactionsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        viewModel.navController = findNavController()
-        viewModel.showSnack = {
-            Snackbar
-                .make(requireView(), getString(R.string.something_went_wrong), Snackbar.LENGTH_LONG)
-                .show()
-        }
         viewModel.str = { getText(it).toString() }
 
         tts = TextToSpeech(requireContext()) { status ->
             if (status == TextToSpeech.SUCCESS) {
-                tts?.language = Locale.getDefault()
+                tts?.language = Locale("ru", "RU")
                 viewModel.tts = tts
                 viewModel.speakAndSet(R.string.reactions_visual_ready) { it }
             }
@@ -54,6 +48,18 @@ class ReactionsFragment : Fragment() {
                         onBack = viewModel::close
                     )
                 }
+            }
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.navController = findNavController()
+        viewModel.showSnack = {
+            view.let {
+                Snackbar
+                    .make(requireView(), getString(R.string.something_went_wrong), Snackbar.LENGTH_LONG)
+                    .show()
             }
         }
     }

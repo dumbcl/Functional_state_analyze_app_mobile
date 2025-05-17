@@ -1,4 +1,4 @@
-package com.example.diplomapplication.ui.profile_screen
+package com.example.diplomapplication.ui.trends_screen
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,9 +12,9 @@ import com.example.diplomapplication.ui.theme.DiplomApplicationTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.getValue
 
-class ProfileFragment : Fragment()  {
+class TrendsFragment : Fragment() {
 
-    private val viewModel: ProfileScreenViewModel by viewModel()
+    private val viewModel: TrendsScreenViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,15 +27,10 @@ class ProfileFragment : Fragment()  {
         return ComposeView(requireContext()).apply {
             setContent {
                 DiplomApplicationTheme {
-                    ProfileScreen(
+                    TrendsScreen(
                         uiState = viewModel.uiState.collectAsState().value,
-                        openMainScreen = { viewModel.navigateToMainScreen() },
-                        onDayClick = {
-                            val dialog = DayEstimateDialogFragment.newInstance(viewModel.uiState.value.dayEstimates[it])
-                            dialog.show(parentFragmentManager, "DayEstimateDialog")
-                        },
-                        refresh = { viewModel.refresh() },
-                        openTrends = { viewModel.openTrends() }
+                        close = { viewModel.close() },
+                        refresh = { viewModel.refresh() }
                     )
                 }
             }

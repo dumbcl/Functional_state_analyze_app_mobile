@@ -172,6 +172,46 @@ fun DayEstimateDialogScreen(
                 )
             }
         }
+        if (item.reactionsResult?.reactionAudioDiffAvg != null) {
+            item {
+                TestResultRow(
+                    testName = stringResource(R.string.audio_reaction_avg_result),
+                    result = String.format("%.2f",item.reactionsResult.reactionAudioDiffAvg),
+                    average = null,
+                    type = EstimateType.UNKNOWN,
+                )
+            }
+        }
+        if (item.reactionsResult?.reactionAudioDiffStd != null) {
+            item {
+                TestResultRow(
+                    testName = stringResource(R.string.audio_reaction_std_result),
+                    result = String.format("%.2f",item.reactionsResult.reactionAudioDiffStd),
+                    average = null,
+                    type = EstimateType.UNKNOWN,
+                )
+            }
+        }
+        if (item.reactionsResult?.reactionVisualDiffAvg != null) {
+            item {
+                TestResultRow(
+                    testName = stringResource(R.string.visual_reaction_avg_result),
+                    result = String.format("%.2f",item.reactionsResult.reactionVisualDiffAvg),
+                    average = null,
+                    type = EstimateType.UNKNOWN,
+                )
+            }
+        }
+        if (item.reactionsResult?.reactionVisualDiffStd != null) {
+            item {
+                TestResultRow(
+                    testName = stringResource(R.string.visual_reaction_std_result),
+                    result = String.format("%.2f",item.reactionsResult.reactionVisualDiffStd),
+                    average = null,
+                    type = EstimateType.UNKNOWN,
+                )
+            }
+        }
         if (item.textAuditionResult?.qualityRead != null) {
             item {
                 TestResultRow(
@@ -198,6 +238,74 @@ fun DayEstimateDialogScreen(
                 text = stringResource(R.string.day_description),
                 style = MaterialTheme.typography.titleMedium
             )
+        }
+        if (item.escalDaily?.performance != null) {
+            item {
+                TestResultRow(
+                    testName = stringResource(R.string.performance),
+                    result = item.escalDaily.performance.toString(),
+                    average = null,
+                    type = item.escalDaily.performanceType,
+                )
+            }
+        }
+        if (item.escalDaily?.fatigue != null) {
+            item {
+                TestResultRow(
+                    testName = stringResource(R.string.fatigue),
+                    result = item.escalDaily.fatigue.toString(),
+                    average = null,
+                    type = item.escalDaily.fatigueType,
+                )
+            }
+        }
+        if (item.escalDaily?.anxiety != null) {
+            item {
+                TestResultRow(
+                    testName = stringResource(R.string.anxiety),
+                    result = item.escalDaily.anxiety.toString(),
+                    average = null,
+                    type = item.escalDaily.anxietyType,
+                )
+            }
+        }
+        if (item.escalDaily?.conflict != null) {
+            item {
+                TestResultRow(
+                    testName = stringResource(R.string.confliсt),
+                    result = item.escalDaily.conflict.toString(),
+                    average = null,
+                    type = item.escalDaily.conflictType,
+                )
+            }
+        }
+        if (item.escalDaily?.sanX != null) {
+            item {
+                TestResultRow(
+                    testName = stringResource(R.string.ipx),
+                    result = item.escalDaily.sanX.toString(),
+                    average = null,
+                    type = EstimateType.UNKNOWN,
+                )
+            }
+        }
+        if (item.escalDaily?.sanZ != null) {
+            item {
+                TestResultRow(
+                    testName = stringResource(R.string.ipz),
+                    result = String.format("%.2f",item.escalDaily.sanZ),
+                    average = null,
+                    type = EstimateType.UNKNOWN,
+                )
+            }
+        }
+
+
+        item {
+            Text(
+                text = stringResource(R.string.day_description),
+                style = MaterialTheme.typography.titleMedium
+            )
             Text(
                 text = item.dayDescription,
                 style = MaterialTheme.typography.bodyLarge
@@ -218,7 +326,7 @@ fun TestResultRow(
         EstimateType.GOOD -> Color(0xFFC8E6C9)
         EstimateType.MEDIUM -> MaterialTheme.colorScheme.secondaryContainer
         EstimateType.BAD -> MaterialTheme.colorScheme.tertiaryContainer
-        EstimateType.UNKNOWN -> MaterialTheme.colorScheme.primaryContainer
+        EstimateType.UNKNOWN -> MaterialTheme.colorScheme.secondaryContainer
     }
     Column(
         modifier = Modifier.fillMaxWidth().wrapContentHeight().background(color = backgroundColor),

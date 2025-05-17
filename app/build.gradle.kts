@@ -95,4 +95,6 @@ dependencies {
     implementation ("com.google.guava:guava:31.1-android")
 
     implementation ("com.squareup.retrofit2:converter-scalars:2.9.0")
+
+    implementation ("com.patrykandpatrick.vico:compose:2.1.2")
 }

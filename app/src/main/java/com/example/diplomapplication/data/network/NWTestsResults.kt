@@ -84,35 +84,40 @@ data class NWDayShtangeTestResult(
     val shtange_result: String,
     val shtange_result_indicator: Float,
     val shtange_test_result_indicator_average: Float,
-    val type: String
+    val type: String,
+    val date: String,
 )
 
 data class NWDayPulseMeasurementResult(
     val pulseAverage: Float,
     val pulseMax: Int,
     val pulseMin: Int,
-    val type: String
+    val type: String,
+    val date: String,
 )
 
 data class NWDayRufieTestResult(
     val rufie_result: String,
     val rufie_result_indicator: Float,
     val rufie_test_result_indicator_average: Float,
-    val type: String
+    val type: String,
+    val date: String,
 )
 
 data class NWDayStrupTestResult(
     val strup_result_estimation: String,
     val strup_result: Int,
     val strup_test_result_average: Float,
-    val type: String
+    val type: String,
+    val date: String,
 )
 
 data class NWDayGenchTestResult(
     val gench_result_estimation: String,
     val gench_result_indicator: Float,
     val gench_test_result_indicator_average: Float,
-    val type: String
+    val type: String,
+    val date: String,
 )
 
 data class NWDayReactionsTestResult(
@@ -121,7 +126,12 @@ data class NWDayReactionsTestResult(
     val reactions_visual_errors_average: Float,
     val reactions_audio_errors_average: Float,
     val reactions_visual_errors_type: String,
-    val reactions_audio_errors_type: String
+    val reactions_audio_errors_type: String,
+    val reactions_visual_diff_avg: Float,
+    val reactions_audio_diff_avg: Float,
+    val reactions_visual_std_avg: Float,
+    val reactions_audio_std_avg: Float,
+    val date: String,
 )
 
 data class NWDayTextAuditionTestResult(
@@ -139,13 +149,29 @@ data class NWDayTextAuditionTestResult(
     val quality_repeat: Float,
     val quality_read_average: Float,
     val quality_repeat_average: Float,
+    val date: String,
 )
 
 data class NWDayPersonalReportTestResult(
     val personal_report_about_day: String,
     val personal_report_current: Int,
     val personal_report_current_average: Float,
-    val type: String
+    val type: String,
+    val date: String,
+)
+
+data class NWDayEscalDailyTestResult(
+    val performance: Int,
+    val performance_type: String,
+    val fatigue: Int,
+    val fatigue_type: String,
+    val anxiety: Int,
+    val anxiety_type: String,
+    val conflict: Int,
+    val conflict_type: String,
+    val sanX: Int,
+    val sanZ: Float,
+    val date: String,
 )
 
 data class NWDayDailyTestResult(
@@ -158,7 +184,28 @@ data class NWDayDailyTestResult(
     val gench_test_result: NWDayGenchTestResult? = null,
     val reactions_test_result: NWDayReactionsTestResult? = null,
     val text_audition_test_result: NWDayTextAuditionTestResult? = null,
+    val escal_daily_test_result: NWDayEscalDailyTestResult? = null,
     val day_description: String,
-    val day_type: String? = null,
+    val day_type: String,
 )
+
+data class NWTrendTestResult(
+    val shtange_test_result: List<NWDayShtangeTestResult>? = null,
+    val personal_report: List<NWDayPersonalReportTestResult>? = null,
+    val pulse_measurement: List<NWDayPulseMeasurementResult>? = null,
+    val rufie_test_result: List<NWDayRufieTestResult>? = null,
+    val strup_test_result: List<NWDayStrupTestResult>? = null,
+    val gench_test_result: List<NWDayGenchTestResult>? = null,
+    val reactions_test_result: List<NWDayReactionsTestResult>? = null,
+    val text_audition_test_result: List<NWDayTextAuditionTestResult>? = null,
+    val escal_daily_test_result: List<NWDayEscalDailyTestResult>? = null,
+    val estimation_result: List<NWEstimationResult>? = null,
+)
+
+data class NWEstimationResult(
+    val date: String,
+    val estimation: Int,
+)
+
+
 
