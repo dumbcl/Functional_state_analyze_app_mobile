@@ -95,7 +95,7 @@ class PPGFragment : Fragment()  {
                         viewModel.updateTextToSpeak(getString(R.string.ppg_continue))
                         getString(R.string.ppg_continue)
                     }
-                    state.timerText == "30" -> {
+                    state.timerText == "30" && state.heartRateText != "..." -> {
                         viewModel.updateTextToSpeak(getString(R.string.ppg_finish_anonce))
                         getString(R.string.ppg_finish_anonce)
                     }

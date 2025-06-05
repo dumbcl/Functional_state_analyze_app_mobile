@@ -45,6 +45,7 @@ class ReactionsScreenViewModel(
     private var mediaPlayer: MediaPlayer? = null
     private fun playBeep() {
         mediaPlayer?.release()
+        mediaPlayer = null
         val ctx = navController.context.applicationContext
         if (mediaPlayer == null) {
             mediaPlayer = MediaPlayer.create(ctx, R.raw.beep_short)?.apply {
@@ -94,6 +95,7 @@ class ReactionsScreenViewModel(
     fun close() {
         handler.removeCallbacksAndMessages(null)
         mediaPlayer?.release()
+        mediaPlayer = null
         tts?.stop()
         navController.popBackStack()
     }

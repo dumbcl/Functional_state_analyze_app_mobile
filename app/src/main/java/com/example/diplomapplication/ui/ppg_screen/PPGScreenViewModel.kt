@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.math.max
 
 class PPGScreenViewModel(): ViewModel()  {
 
@@ -68,12 +69,20 @@ class PPGScreenViewModel(): ViewModel()  {
             }
 
             override fun onFinish() {
-                _uiState.update {
-                    uiState.value.copy(
-                        timerText = null,
-                        isRecording = false,
-                        isFinishAlertVisible = true,
-                    )
+                if (uiState.value.heartRateText != "...") {
+                    _uiState.update {
+                        uiState.value.copy(
+                            timerText = null,
+                            isRecording = false,
+                            isFinishAlertVisible = true,
+                        )
+                    }
+                } else {
+                    _uiState.update {
+                        uiState.value.copy(
+                            timerText = null,
+                        )
+                    }
                 }
             }
         }.start()
@@ -112,13 +121,29 @@ class PPGScreenViewModel(): ViewModel()  {
 
     fun updateHeartRate(bpm: Int) {
         viewModelScope.launch {
-            heartMeasuresCount++
-            heartMeasureSum += bpm
-            heartRate = heartMeasureSum / heartMeasuresCount
-            _uiState.update {
-                uiState.value.copy(
-                    heartRateText = heartRate?.toString().orEmpty(),
-                )
+            if (bpm > 0) {
+                heartMeasuresCount++
+                heartMeasureSum += bpm
+                heartRate = heartMeasureSum / heartMeasuresCount
+                _uiState.update {
+                    uiState.value.copy(
+                        heartRateText = heartRate?.toString().orEmpty(),
+                    )
+                }
+                if (uiState.value.timerText == null) {
+                    _uiState.update {
+                        uiState.value.copy(
+                            isRecording = false,
+                            isFinishAlertVisible = true,
+                        )
+                    }
+                }
+            } else {
+                _uiState.update {
+                    uiState.value.copy(
+                        heartRateText = "...",
+                    )
+                }
             }
         }
     }
