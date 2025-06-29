@@ -15,8 +15,3 @@
 Серверная часть приложения находится в отдельном репозитории:  
 ➡️ [Серверная часть](https://github.com/dumbcl/Functional_state_analyze_app_backend)
 
----
-
-<div align="center">
-  <img src="https://itmo.ru/file/pages/213/logo_basic_rus_v.png" alt="ИТМО" width="200"/>
-</div>
