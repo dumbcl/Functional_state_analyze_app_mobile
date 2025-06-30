@@ -14,5 +14,6 @@
 
 Серверная часть приложения находится в отдельном репозитории:  
 ➡️ [Серверная часть](https://github.com/dumbcl/Functional_state_analyze_app_backend)
+
 Ссылка на apk (исполняемый файл) приложения [ссылка](https://disk.yandex.ru/d/qWbumgSliN-MNQ)
 
